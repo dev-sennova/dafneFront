@@ -60,7 +60,45 @@ export class LoginService {
     signIn(user: any): Observable<any> {
       return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user);
     }
+  
+    handleLoginResponse(response: any): void {
+      localStorage.setItem('access_token', response.access_token);
+      localStorage.setItem('nombre_usuario', response.nombre_usuario);
+      localStorage.setItem('email_usuario', response.email_usuario);
+      localStorage.setItem('identificador_usuario', response.id_usuario);
+      localStorage.setItem('rol', response.rol);
 
+      this.verCantidad(response.id_usuario).subscribe(
+        (data) => {
+          console.log("TIPO DATA: " + typeof (data));
+          console.log("DATA: " + JSON.stringify(data));
+
+          // Verifica si existe la propiedad 'users' y asigna su valor a this.idUsuarioEmprendedor
+          if (data && data.users !== undefined) {
+            this.conteo = data.users;
+            if(this.conteo>0){
+              this.idUsuarioEmprendedor=localStorage.getItem('identificador_usuario');
+              localStorage.setItem('identificador_emprendedor', this.idUsuarioEmprendedor);
+            }
+            console.log("Item iEmprendedor: " + localStorage.getItem('identificador_emprendedor'));
+          } else {
+            console.log("La propiedad 'users' no existe en la respuesta.");
+          }
+        },
+
+        (err) => {
+          console.log(err);
+        }
+      );
+  
+      // Redireccionar según el rol
+      if (response.rol == 1) {
+        this.router.navigate(['administrador']);
+      } else if (response.rol == 3) {
+        this.router.navigate(['home']);
+      }
+    }
+  
     resendEmail(email:string): Observable<any>{
       return this.http.post<any>(`${this.urlBase}/${this.endpointResendEmail}`,{email})
     }

@@ -26,28 +26,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     const user = { email: this.usuario, password: this.password };
-    this.loginService.signIn(user).subscribe(
-      (response) => {
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('nombre_usuario', response.nombre_usuario);
-        localStorage.setItem('email_usuario', response.email_usuario);
-        localStorage.setItem('identificador_usuario', response.id_usuario);
-        localStorage.setItem('rol', response.rol);
-
-        // Redireccionar según el rol
-        if (response.rol == 1) {
-          this.router.navigate(['administrador']);
-        } else if (response.rol == 3) {
-          this.router.navigate(['home']);
+      this.loginService.signIn(user).subscribe(
+        (response) => {
+          this.loginService.handleLoginResponse(response);
+        },
+        (error) => {
+          if (error.error.error_code == 'email_not_verified') {
+            this.Viewpin = true;
+          }
         }
-      },
-      (error) => {
-        if (error.error.error_code == 'email_not_verified') {
-          this.Viewpin = true;
-        }
-      }
-    );
-  }
+      );
+    }
 
   verifyEmail() {
     this.loginService.verifyEmail(this.usuario, this.pin).subscribe(
@@ -66,7 +55,11 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        console.error(error);
+        Swal.fire({
+          title: "Verificacion Fallida",
+          text: "No se ha podido validar el correo. Revise el pin e intente nuevamente",
+          icon: "error"
+        });
       }
     );
   }
