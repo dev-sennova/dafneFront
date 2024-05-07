@@ -1,3 +1,7 @@
+# Modificacion_archivo_readme
+
+03/05/2024 Se realiza primer acercamiento a la nueva estructura de manejo de cambios.
+
 # Emprendimientofront
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
