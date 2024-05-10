@@ -12,6 +12,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Router } from '@angular/router';
 import { GlobalConstants } from '../common/global-constants';
 import Swal from 'sweetalert2';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class LoginService {
   private endpoint= 'api/auth/login';
 
   private endpointRegister= 'api/auth/register';
+
+  private endpointVerifyEmail= 'api/auth/verify-email';
+
+  private endpointResendEmail= 'api/auth/resend-email';
 
   private endpointSeccion='api/auth/bitacora/validaravance';
 
@@ -52,46 +57,54 @@ export class LoginService {
   constructor(private http: HttpClient, public router: Router){}
 
     // Sign-in
-    signIn(user:any) {
-      return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user)
-        .subscribe((res: any) => {
-          localStorage.setItem('access_token', res.access_token);
-          localStorage.setItem('nombre_usuario', res.nombre_usuario);
-          localStorage.setItem('email_usuario', res.email_usuario);
-          localStorage.setItem('identificador_usuario', res.id_usuario);
-          localStorage.setItem('rol', res.rol);
-          console.log("Item idUsuario: "+localStorage.getItem('identificador_usuario'));
-          console.log("Item rol: "+localStorage.getItem('rol'));
+    signIn(user: any): Observable<any> {
+      return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user);
+    }
+  
+    handleLoginResponse(response: any): void {
+      localStorage.setItem('access_token', response.access_token);
+      localStorage.setItem('nombre_usuario', response.nombre_usuario);
+      localStorage.setItem('email_usuario', response.email_usuario);
+      localStorage.setItem('identificador_usuario', response.id_usuario);
+      localStorage.setItem('rol', response.rol);
 
-          this.verCantidad(res.id_usuario).subscribe(
-            (data) => {
-              console.log("TIPO DATA: " + typeof (data));
-              console.log("DATA: " + JSON.stringify(data));
+      this.verCantidad(response.id_usuario).subscribe(
+        (data) => {
+          console.log("TIPO DATA: " + typeof (data));
+          console.log("DATA: " + JSON.stringify(data));
 
-              // Verifica si existe la propiedad 'users' y asigna su valor a this.idUsuarioEmprendedor
-              if (data && data.users !== undefined) {
-                this.conteo = data.users;
-                if(this.conteo>0){
-                  this.idUsuarioEmprendedor=localStorage.getItem('identificador_usuario');
-                  localStorage.setItem('identificador_emprendedor', this.idUsuarioEmprendedor);
-                }
-                console.log("Item iEmprendedor: " + localStorage.getItem('identificador_emprendedor'));
-              } else {
-                console.log("La propiedad 'users' no existe en la respuesta.");
-              }
-            },
-            (err) => {
-              console.log(err);
+          // Verifica si existe la propiedad 'users' y asigna su valor a this.idUsuarioEmprendedor
+          if (data && data.users !== undefined) {
+            this.conteo = data.users;
+            if(this.conteo>0){
+              this.idUsuarioEmprendedor=localStorage.getItem('identificador_usuario');
+              localStorage.setItem('identificador_emprendedor', this.idUsuarioEmprendedor);
             }
-          );
-
-          //console.log("Token: "+res.access_token);
-          if(res.rol==1){
-            this.router.navigate(['administrador']);
-          }else if(res.rol==3){
-            this.router.navigate(['home']);
+            console.log("Item iEmprendedor: " + localStorage.getItem('identificador_emprendedor'));
+          } else {
+            console.log("La propiedad 'users' no existe en la respuesta.");
           }
-        })
+        },
+
+        (err) => {
+          console.log(err);
+        }
+      );
+  
+      // Redireccionar según el rol
+      if (response.rol == 1) {
+        this.router.navigate(['administrador']);
+      } else if (response.rol == 3) {
+        this.router.navigate(['home']);
+      }
+    }
+  
+    resendEmail(email:string): Observable<any>{
+      return this.http.post<any>(`${this.urlBase}/${this.endpointResendEmail}`,{email})
+    }
+    
+    verifyEmail(email: string, pin: string): Observable<any> {
+      return this.http.post(`${this.urlBase}/${this.endpointVerifyEmail}`, { email, pin });
     }
 
     public crearEmprendedor(user: any): Observable<any>{

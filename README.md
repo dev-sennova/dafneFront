@@ -1,3 +1,7 @@
+## Implementacion_Vistas_Verificacion_Correo
+03/05/2024
+Se implementan las vistas para la verificacion de correo de los nuevos usuarios. Ahora, cuando el administrador registra un usuario, se envia automaticamente un correo al email registrado. el usuario al intentar ingresar por primera vez al sistema, tendra que digitar el codigo que se le envio, aparte de su correo y contraseña. Si el usuario ingresa el codigo correcto, iniciará sesion automaticamente.
+
 # Modificacion_archivo_readme
 
 03/05/2024 Se realiza primer acercamiento a la nueva estructura de manejo de cambios.

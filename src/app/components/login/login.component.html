@@ -2,20 +2,39 @@
     <form class="login-form" method="post">
       <img class="logo" src="./assets/imagenes/login.png" style="max-width: 100%;"/><br><br>
       <h1 class="logo" id="titulodafne">D.A.F.N.E</h1>
+
+      <p *ngIf="Viewpin ===true" style="text-align: center;">Hemos enviado un email a tu correo para comprobar que eres tu. Ingresa el pin para continuar.</p>
+
         <input
           type="text"
           [(ngModel)]="usuario"
           name="usuario"
           placeholder="Usuario"
           required="required"
+          [readonly]="Viewpin === true"
         />
+    
         <input
           type="password"
           [(ngModel)]="password"
           name="password"
           placeholder="Contraseña"
           required="required"
+          *ngIf="!Viewpin"
         />
-      <button class="button-design" type="submit" (click)="login()">Ingresar</button>
-    </form>
+        <input
+          type="number"
+          [(ngModel)]="pin"
+          name="pin"
+          placeholder="Pin de verificacion"
+          required="required"
+          *ngIf="Viewpin"
+        />
+      <button *ngIf="!Viewpin" class="button-design" type="submit" (click)="login()">Ingresar</button>
+      <button *ngIf="Viewpin"class="button-design" type="submit" (click)="verifyEmail()">Verificar</button>
+      <div style="text-align: center; margin-top: 3%;">
+        <a (click)="resendEmail()" *ngIf="Viewpin" style="text-decoration: underline; color: black; cursor: pointer;">Reenviar pin</a>
+      </div>    
+  </form>
   </div>
+  <br><br>
