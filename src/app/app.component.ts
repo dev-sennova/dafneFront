@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -19,6 +19,8 @@ export class AppComponent {
     shareReplay()
   );
 
+  menuVisible = false;
+
   title = GlobalConstants.siteTitle;
 
   constructor(public authService: LoginService, public router: Router, private breakpointObserver: BreakpointObserver) { }
@@ -28,4 +30,21 @@ export class AppComponent {
     this.router.navigate(['login']);
   }
 
+  changepassword(){
+    this.router.navigate(['change-password'])
+  }
+
+  
+  @HostListener('document:click', ['$event'])
+clickout(event: MouseEvent) {
+  const targetElement = event.target as HTMLElement;
+  const menuButton = document.querySelector('.menu-button') as HTMLElement;
+
+  if (menuButton && menuButton.contains(targetElement)) {
+    this.menuVisible = true;
+  } else {
+    this.menuVisible = false;
+  }
+}
+  
 }

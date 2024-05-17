@@ -34,6 +34,10 @@ export class LoginService {
 
   private endpointVerifyEmail= 'api/auth/verify-email';
 
+  private endpointVerifyPassword= 'api/auth/verifypassword';
+
+  private endpointChangePassword= 'api/auth/changepassword';
+
   private endpointResendEmail= 'api/auth/resend-email';
 
   private endpointSeccion='api/auth/bitacora/validaravance';
@@ -105,6 +109,14 @@ export class LoginService {
     
     verifyEmail(email: string, pin: string): Observable<any> {
       return this.http.post(`${this.urlBase}/${this.endpointVerifyEmail}`, { email, pin });
+    }
+
+    verifyPassword(password:string):Observable<any>{
+      return this.http.post(`${this.urlBase}/${this.endpointVerifyPassword}`, { password });
+    }
+
+    changePassword(new_password:string):Observable<any>{
+      return this.http.post(`${this.urlBase}/${this.endpointChangePassword}`, { new_password });
     }
 
     public crearEmprendedor(user: any): Observable<any>{

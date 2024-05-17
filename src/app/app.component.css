@@ -34,3 +34,28 @@
 .fill-space {
   flex: 1 1 auto;
 }
+
+.menu-desplegable {
+  position: absolute;
+  top: 50px; 
+  right: 10px; 
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000; 
+}
+
+.menu-desplegable button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  color: black;
+}
+
+.menu-desplegable button:hover {
+  background-color: #ece7e3;
+}
+
+

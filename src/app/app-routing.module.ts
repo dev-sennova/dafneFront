@@ -53,6 +53,7 @@ import { ProyeccionmensualComponent } from './components/proyeccionmensual/proye
 import { BasicoformalizacionComponent } from './components/basicoformalizacion/basicoformalizacion.component';
 import { EmpresaformalizacionComponent } from './components/empresaformalizacion/empresaformalizacion.component';
 import { PersonaformalizacionComponent } from './components/personaformalizacion/personaformalizacion.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
     //{ path: "", component: AppComponent, pathMatch: "full" },
@@ -109,7 +110,8 @@ const routes: Routes = [
     { path: "proyeccionmensual", component:ProyeccionmensualComponent, pathMatch: "full"},
     { path: "basicoformalizacion", component:BasicoformalizacionComponent, pathMatch: "full"},
     { path: "empresaformalizacion", component:EmpresaformalizacionComponent, pathMatch: "full"},
-    { path: "personaformalizacion", component:PersonaformalizacionComponent, pathMatch: "full"}
+    { path: "personaformalizacion", component:PersonaformalizacionComponent, pathMatch: "full"},
+    { path: "change-password", component:ChangePasswordComponent,pathMatch:"full"}
 ];
 
 @NgModule({

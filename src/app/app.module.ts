@@ -96,6 +96,7 @@ import { ProyeccionmensualComponent } from './components/proyeccionmensual/proye
 import { BasicoformalizacionComponent } from './components/basicoformalizacion/basicoformalizacion.component';
 import { EmpresaformalizacionComponent } from './components/empresaformalizacion/empresaformalizacion.component';
 import { PersonaformalizacionComponent } from './components/personaformalizacion/personaformalizacion.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const materialModules = [
   MatCardModule,
@@ -180,7 +181,8 @@ const materialModules = [
     ProyeccionmensualComponent,
     BasicoformalizacionComponent,
     EmpresaformalizacionComponent,
-    PersonaformalizacionComponent
+    PersonaformalizacionComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
