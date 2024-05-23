@@ -13,7 +13,7 @@
           required="required"
           [readonly]="Viewpin === true"
         />
-    
+
         <input
           type="password"
           [(ngModel)]="password"
@@ -32,12 +32,12 @@
         />
       <button *ngIf="!Viewpin" class="button-design" type="submit" (click)="login()">Ingresar</button>
       <div style="text-align: center; margin-top: 3%;">
-      <a *ngIf="!Viewpin" href="http://127.0.0.1:8000/password/reset" style="text-decoration: underline; color: black; cursor: pointer;">¿Olvido su contraseña?</a>
+        <a *ngIf="!Viewpin" [href]="passwordResetURL" style="text-decoration: underline; color: black; cursor: pointer;">¿Olvido su contraseña?</a>
       </div>
       <button *ngIf="Viewpin"class="button-design" type="submit" (click)="verifyEmail()">Verificar</button>
       <div style="text-align: center; margin-top: 3%;">
         <a (click)="resendEmail()" *ngIf="Viewpin" style="text-decoration: underline; color: black; cursor: pointer;">Reenviar pin</a>
-      </div>    
+      </div>
   </form>
   </div>
   <br><br>
