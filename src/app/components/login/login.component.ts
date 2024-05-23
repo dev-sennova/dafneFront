@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { error } from 'jquery';
+import { GlobalConstants } from 'src/app/common/global-constants';
 import Swal from 'sweetalert2';
 
 
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  public passwordResetURL: string = GlobalConstants.passwordResetURL;
   usuario: string;
   password: string;
   Viewpin: boolean = false;

@@ -1,14 +1,27 @@
 <mat-sidenav-container class="sidenav-container" *ngIf="this.authService.isLoggedIn">
 
   <mat-sidenav-content>
+
     <mat-toolbar color="primary">
+
       <span>
-        <img class="my-0 mr-md-auto font-weight-normal" src="./assets/iconos/logo-sena.svg" style="max-width: 300px;  align-self: right;"/>
+        <img class="my-0 mr-md-auto font-weight-normal" src="./assets/iconos/logo-sena.svg"
+          style="max-width: 300px;  align-self: right;" />
       </span>
+
       <span class="fill-space"></span>
+
       <span *ngIf="this.authService.isLoggedIn">
-        <button mat-button (click)="logout()" *ngIf="this.authService.isLoggedIn" class="ml-auto"><img src="./assets/imagenes/cerrar-sesion.png" style="max-width: 36px;"></button>
+        <button mat-button class="menu-button" (click)="menuVisible = !menuVisible">
+          <img src="./assets/iconos/no-foto.svg" style="max-width: 36px;">
+        </button>
+        <div *ngIf="menuVisible" class="menu-desplegable">
+          <button mat-button (click)="changepassword()" >Cambiar Contraseña</button>
+          <button mat-button (click)="logout()">Cerrar Sesión</button>
+        </div>
       </span>
+
+      
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
@@ -18,4 +31,3 @@
 <div *ngIf="this.authService.isLoggedOut">
   <app-login></app-login>
 </div>
-
