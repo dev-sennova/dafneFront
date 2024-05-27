@@ -1,7 +1,8 @@
 <div class="container">
   <br>
-  <span><img src="./assets/iconos/bombilla.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen" class="img-fluid"></span>
-  <span><b style="font-size: 1.8rem;">  Ideación</b></span>
+  <span><img src="./assets/iconos/bombilla.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen"
+      class="img-fluid"></span>
+  <span><b style="font-size: 1.8rem;"> Ideación</b></span>
   <hr>
   <h1>Conociendo al emprendedor</h1>
   <img src="./assets/imagenes/separador.jpg" style="max-width: 140px; max-height: 20px;" alt="Imagen" class="img-fluid">
@@ -9,43 +10,65 @@
   <div class="row">
 
     <div class="col-md-5">
-        <div class="form-group">
-          <label for="nombre">Tu nombre:</label>
-          <input type="text" id="nombre" class="form-control" [(ngModel)]="nombre" placeholder="Nombre del emprendedor">
-        </div>
-        <div class="form-group">
-          <label for="tipoDocumento">Tipo de documento:</label>
-          <select id="tipoDocumento" class="form-control" [(ngModel)]="tipoDocumento" placeholder="Tipo de documento">
-            <option value="Cédula">Cédula</option>
-            <option value="Tarjeta de identidad">Tarjeta de identidad</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="numeroDocumento">Número de documento:</label>
-          <input type="text" id="numeroDocumento" class="form-control" [(ngModel)]="numeroDocumento" placeholder="Número de Documento">
-        </div>
-        <div class="form-group">
-          <label for="correo">Correo:</label>
-          <input type="email" id="correo" class="form-control" [(ngModel)]="correo" placeholder="Correo">
-        </div>
+      <div class="form-group">
+        <label for="nombre">Tu nombre:</label>
+        <input type="text" id="nombre" class="form-control" [(ngModel)]="nombre" placeholder="Nombre del emprendedor">
+      </div>
+
+      <div class="form-group">
+        <label for="tipoDocumento">Tipo de documento:</label>
+        <select id="tipoDocumento" class="form-control" [(ngModel)]="tipoDocumento" placeholder="Tipo de documento">
+          <option value="Cédula">Cédula</option>
+          <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" class="form-control" (change)="onDepartamentoChange($event)">
+          <option *ngFor="let departamento of departamentos" [value]="departamento.id">
+            {{ departamento.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" class="form-control" [(ngModel)]="correo" placeholder="Correo" readonly>
+      </div>
+
     </div>
 
     <div class="col-md-5">
+
       <div class="form-group">
         <label for="telefono">Número telefónico:</label>
-        <input type="tel" id="telefono" class="form-control" [(ngModel)]="telefono" placeholder="Telefono">
+        <input type="number" id="telefono" class="form-control" [(ngModel)]="telefono" placeholder="Telefono">
       </div>
+
+
+      <div class="form-group">
+        <label for="numeroDocumento">Número de documento:</label>
+        <input type="number" id="numeroDocumento" class="form-control" [(ngModel)]="numeroDocumento"
+          placeholder="Número de Documento">
+      </div>
+
+      <div class="form-group">
+        <label for="ciudad">Ciudad:</label>
+        <select id="ciudad" class="form-control" [(ngModel)]="ciudad">
+          <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">
+            {{ ciudad.ciudad }}
+          </option>
+        </select>
+      </div>
+
+
       <div class="form-group">
         <label for="direccion">Dirección:</label>
         <input type="text" id="direccion" class="form-control" [(ngModel)]="direccion" placeholder="Dirección">
       </div>
-      <div class="form-group">
-        <label for="ciudad">Ciudad:</label>
-        <select id="ciudad" class="form-control" [(ngModel)]="ciudad" placeholder="Ciudad">
-          <option *ngFor="let option of options" [value]="option">{{ option }}</option>
-        </select>
-      </div>
-      <div class="form-group">
+
+      <div class="form-group-buttons">
         <label for="sexo">Sexo:</label>
         <select id="sexo" class="form-control" [(ngModel)]="sexo" placeholder="Sexo">
           <option value="Femenino">Femenino</option>
@@ -54,22 +77,24 @@
         </select>
         <br>
         <div class="col-xs-12 col-md-4">
-           <form method="post">
-             <!-- <button type="submit" (click)="experienciaRoute()">Continuemos</button> -->
-             <button class="ideacion-button" type="submit" (click)="basicosSave()">Continuemos</button>
-           </form>
+          <form method="post">
+            <!-- <button type="submit" (click)="experienciaRoute()">Continuemos</button> -->
+            <button class="ideacion-button" type="submit" (click)="basicosSave()">Continuemos</button>
+          </form>
         </div>
         <!--****************************************************************************-->
         <div class="col-xs-12 col-md-4">
-            <button class="plus-button" (click)="homeRoute()">Volver al menú</button>
+          <button class="plus-button" (click)="homeRoute()">Volver al menú</button>
         </div>
         <!--****************************************************************************-->
       </div>
     </div>
 
     <div class="col-md-2">
-      <img src="./assets/imagenes/conociendo-al-emprendedor.png" style="max-height: 70%; max-width: 70%;" alt="Imagen" class="img-fluid" id="img-basicos">
+      <img src="./assets/imagenes/conociendo-al-emprendedor.png" style="max-height: 70%; max-width: 70%;" alt="Imagen"
+        class="img-fluid" id="img-basicos">
     </div>
 
   </div>
+  
 </div>

@@ -16,6 +16,7 @@
           <img src="./assets/iconos/no-foto.svg" style="max-width: 36px;">
         </button>
         <div *ngIf="menuVisible" class="menu-desplegable">
+          <button mat-button (click)="datosBasicos()">Datos Basicos</button>
           <button mat-button (click)="changepassword()" >Cambiar Contraseña</button>
           <button mat-button (click)="logout()">Cerrar Sesión</button>
         </div>

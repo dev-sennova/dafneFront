@@ -17,11 +17,24 @@ export class BasicosService {
 
   private endpoint='api/auth/usuario/store';
 
+  private endpointUserByID='api/auth/usuario/selectusuario/';
+
+  private endpointUserUpdate='api/auth/usuario/update';
+
+
   private endpointUsuarios='api/auth/usuario';
 
   private endpointUsuario='api/auth/usuario/selectusuario';
 
   constructor(private httpClient: HttpClient) { }
+
+  getUserById(id: number): Observable<any> {
+    return this.httpClient.get(`${this.urlBase}/${this.endpointUserByID}${id}`);
+  }
+
+  updateUser(user: any): Observable<any> {
+    return this.httpClient.put(`${this.urlBase}/${this.endpointUserUpdate}`, user);
+  }
 
   public crearUsuario(user: any): Observable<any>{
     return this.httpClient.post(`${this.urlBase}/${this.endpoint}`, user)

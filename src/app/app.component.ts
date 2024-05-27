@@ -34,6 +34,10 @@ export class AppComponent {
     this.router.navigate(['change-password'])
   }
 
+  datosBasicos(){
+    this.router.navigate(['datos-basicos'])
+  }
+
   
   @HostListener('document:click', ['$event'])
 clickout(event: MouseEvent) {

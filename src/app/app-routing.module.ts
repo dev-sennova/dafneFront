@@ -54,6 +54,7 @@ import { BasicoformalizacionComponent } from './components/basicoformalizacion/b
 import { EmpresaformalizacionComponent } from './components/empresaformalizacion/empresaformalizacion.component';
 import { PersonaformalizacionComponent } from './components/personaformalizacion/personaformalizacion.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { DatosBasicosComponent } from './components/datos-basicos/datos-basicos.component';
 
 const routes: Routes = [
     //{ path: "", component: AppComponent, pathMatch: "full" },
@@ -111,7 +112,8 @@ const routes: Routes = [
     { path: "basicoformalizacion", component:BasicoformalizacionComponent, pathMatch: "full"},
     { path: "empresaformalizacion", component:EmpresaformalizacionComponent, pathMatch: "full"},
     { path: "personaformalizacion", component:PersonaformalizacionComponent, pathMatch: "full"},
-    { path: "change-password", component:ChangePasswordComponent,pathMatch:"full"}
+    { path: "change-password", component:ChangePasswordComponent,pathMatch:"full"},
+    { path: "datos-basicos", component:DatosBasicosComponent, pathMatch:"full"}
 ];
 
 @NgModule({

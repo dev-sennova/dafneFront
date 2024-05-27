@@ -1,12 +1,12 @@
+## Implementacion-vista-edicion-datos-Basicos
+27/5/2024
+Se implementa una vista para que el usuario pueda editar y consultar los datos basicos que ingreso en su registro como emprendedor. Se implementa tambien el campo "departamento" tanto en la vista de registro como de edición, el cual permite un filtrado de las ciudades mas sencillo y eficiente, ahora al escoger un departamento, se desplegara la lista de ciudades y municipios asociados a este mismo. 
+
 ## Implementacion-Vistas-Recuperacion-Y-Cambio-Contraseña
 17/05/2024
 Se implementan las vistas para la recuperacion y el cambio de contraseña de los usuarios. Ahora, para restablecer la contraseña, se envia al usuario un correo con las instrucciones necesarias. El usuario ademas, despues de logueado podra cambiar su contraseña.
 
-¡IMPORTANTE! Al momento de implementar esto a produccion hay que cambiar el link del boton "¿Olvido su contraseña?" del archivo "login.component.html", en la linea 35. Actualmente este boton esta de la siguiente manera: 
-
-      <a *ngIf="!Viewpin" href="http://127.0.0.1:8000/password/reset" style="text-decoration: underline; color: black; cursor: pointer;">¿Olvido su contraseña?</a>
-
-Al implementar en produccion, el href tendra que llevar el link del backend, seguido del "/password/reset"
+¡IMPORTANTE! Al momento de implementar esto a produccion hay que cambiar la apiURL o la urlBase, definida en el archivo global-constans, ya que de esto depende el correcto direccionamiento hacia el cambio de contraseña. 
 
 ## Implementacion_Vistas_Verificacion_Correo
 03/05/2024

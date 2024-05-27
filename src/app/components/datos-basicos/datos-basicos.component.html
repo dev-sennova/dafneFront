@@ -1,0 +1,122 @@
+<div class="container">
+  <br><br><br>
+  <div class="container-change">
+    <p class="title">Datos Básicos</p>
+    <!-- Iniciar el formulario aquí -->
+    <div class="mr-4 ml-4" *ngIf="isEditing">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nombre" class="label">Tu nombre:</label>
+              <input type="text" id="nombre" class="form-control" formControlName="nombre"
+                placeholder="Nombre del emprendedor" [ngClass]="{'is-invalid': isFieldInvalid('nombre')}">
+              <div *ngIf="isFieldInvalid('nombre')" class="invalid-feedback">Nombre es obligatorio.</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="tipoDocumento" class="label">Tipo de documento:</label>
+              <select id="tipoDocumento" class="form-control" formControlName="tipodocumento"
+                [ngClass]="{'is-invalid': isFieldInvalid('tipodocumento')}">
+                <option value="Cédula">Cédula</option>
+                <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+              </select>
+              <div *ngIf="isFieldInvalid('tipodocumento')" class="invalid-feedback">Tipo de documento es obligatorio.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="numeroDocumento" class="label">Número de documento:</label>
+              <input type="number" id="numeroDocumento" class="form-control" formControlName="documento"
+                placeholder="Número de Documento" [ngClass]="{'is-invalid': isFieldInvalid('documento')}">
+              <div *ngIf="isFieldInvalid('documento')" class="invalid-feedback">Número de documento es obligatorio.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="correo" class="label">Correo:</label>
+              <input type="email" id="correo" class="form-control" formControlName="email" placeholder="Correo" readonly
+                [ngClass]="{'is-invalid': isFieldInvalid('email')}">
+              <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">Correo es obligatorio y debe ser válido.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="telefono" class="label">Número telefónico:</label>
+              <input type="number" id="telefono" class="form-control" formControlName="telefono" placeholder="Telefono"
+                [ngClass]="{'is-invalid': isFieldInvalid('telefono')}">
+              <div *ngIf="isFieldInvalid('telefono')" class="invalid-feedback">Número telefónico es obligatorio.</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="sexo" class="label">Sexo:</label>
+              <select id="sexo" class="form-control" formControlName="sexo"
+                [ngClass]="{'is-invalid': isFieldInvalid('sexo')}">
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Otro">Otro</option>
+              </select>
+              <div *ngIf="isFieldInvalid('sexo')" class="invalid-feedback">Sexo es obligatorio.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="departamento" class="label">Departamento:</label>
+              <select id="departamento" class="form-control" formControlName="departamento"
+                (change)="onDepartamentoChange($event)" [ngClass]="{'is-invalid': isFieldInvalid('departamento')}">
+                <option *ngFor="let departamento of departamentos" [value]="departamento.id">{{ departamento.nombre }}
+                </option>
+              </select>
+              <div *ngIf="isFieldInvalid('departamento')" class="invalid-feedback">Departamento es obligatorio.</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ciudad" class="label">Ciudad:</label>
+              <select id="ciudad" class="form-control" formControlName="ciudad"
+                [ngClass]="{'is-invalid': isFieldInvalid('ciudad')}">
+                <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">{{ ciudad.ciudad }}</option>
+              </select>
+              <div *ngIf="isFieldInvalid('ciudad')" class="invalid-feedback">Ciudad es obligatorio.</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="direccion" class="label">Dirección:</label>
+              <input type="text" id="direccion" class="form-control" formControlName="direccion" placeholder="Dirección"
+                [ngClass]="{'is-invalid': isFieldInvalid('direccion')}">
+              <div *ngIf="isFieldInvalid('direccion')" class="invalid-feedback">Dirección es obligatoria.</div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+      </form>
+    </div>
+
+    <div class="message" *ngIf="!isEditing">
+      <p>Vemos que aún no te has registrado como emprendedor, por lo tanto, no tienes datos guardados.</p>
+    </div>
+    <div class="row">
+      <div class="buttons">
+        <button class="buttonBack-design" (click)="backHome()">Volver</button>
+        <button *ngIf="isEditing" class="button-design" type="submit" (click)="onSubmit()"
+          [disabled]="userForm.pristine">Actualizar</button>
+        <button *ngIf="!isEditing" class="button-design" type="submit" (click)="basicosRoute()">Registrarse</button>
+      </div>
+    </div>
+    <!-- Finalizar el formulario aquí -->
+    <br>
+  </div><br>
+</div>
