@@ -97,6 +97,7 @@ import { BasicoformalizacionComponent } from './components/basicoformalizacion/b
 import { EmpresaformalizacionComponent } from './components/empresaformalizacion/empresaformalizacion.component';
 import { PersonaformalizacionComponent } from './components/personaformalizacion/personaformalizacion.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { DatosBasicosComponent } from './components/datos-basicos/datos-basicos.component';
 
 const materialModules = [
   MatCardModule,
@@ -182,7 +183,8 @@ const materialModules = [
     BasicoformalizacionComponent,
     EmpresaformalizacionComponent,
     PersonaformalizacionComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DatosBasicosComponent
   ],
   imports: [
     BrowserModule,

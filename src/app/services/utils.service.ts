@@ -12,11 +12,15 @@ import { GlobalConstants } from '../common/global-constants';
 })
 export class UtilsService {
 
+  departamentoId: number = 0;
+
   private urlBase=GlobalConstants.apiURL;
 
   //private urlBase='http://127.0.0.1:8000';
 
-  private endpointCiudades='api/auth/ciudad';
+  private endpointCiudades = 'api/auth/ciudad/filterByDepartamento/';
+
+  private endpointDepartamentos='api/auth/departamento';
 
   private endpointCiuu='api/auth/codigo_ciiu';
 
@@ -97,8 +101,12 @@ export class UtilsService {
 
   constructor(private httpClient: HttpClient, private loginService:LoginService) { }
 
-  public lecturaCiudades(): Observable<any> {
-    return this.httpClient.get(`${this.urlBase}/${this.endpointCiudades}`);
+  public lecturaCiudades(departamentoId: number): Observable<any> {
+    return this.httpClient.get(`${this.urlBase}/${this.endpointCiudades}${departamentoId}`);
+  }
+
+  public lecturaDepartamentos(): Observable<any> {
+    return this.httpClient.get(`${this.urlBase}/${this.endpointDepartamentos}`);
   }
 
   public lecturaImpuestos(): Observable<any> {
