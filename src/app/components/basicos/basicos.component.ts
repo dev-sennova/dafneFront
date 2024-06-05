@@ -91,22 +91,28 @@ export class BasicosComponent implements OnInit {
     );
   }
 
-  // Cargar ciudades basadas en el departamento seleccionado
-  onDepartamentoChange(event: any): void {
-    const departamentoId = event?.target?.value;
-    console.log(event.target.value);
-    if (departamentoId) {
-      this.utilsService.lecturaCiudades(departamentoId).subscribe(
-        (data) => {
-          console.log(data); // Verifica aquí si recibes los datos de las ciudades correctamente
-          this.ciudades = data.ciudades;
-        },
-        (err) => {
-          console.log(err); // Manejo de errores
-        }
-      );
-    }
+// Cargar ciudades basadas en el departamento seleccionado
+onDepartamentoChange(event: any): void {
+  const departamentoId = event?.target?.value;
+  console.log(event.target.value);
+  if (departamentoId) {
+    this.utilsService.lecturaCiudades(departamentoId).subscribe(
+      (data) => {
+        this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }, ...data.ciudades];
+        // Reiniciar la ciudad seleccionada cuando se cambie el departamento
+        this.ciudad = 'Seleccione una ciudad';
+      },
+      (err) => {
+        console.log(err); // Manejo de errores
+      }
+    );
+  } else {
+    this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }];
+    // Reiniciar la ciudad seleccionada cuando no se seleccione ningún departamento
+    this.ciudad = 'Seleccione una ciudad';
   }
+}
+
   
 
   fetchOptions() {
@@ -117,6 +123,12 @@ export class BasicosComponent implements OnInit {
 
   // Guardar usuario
   basicosSave() {
+    let ciudadSeleccionada: string | undefined | null = this.ciudad;
+    // Verificar si la opción seleccionada es "Seleccione una ciudad" y establecer ciudadSeleccionada como null en ese caso
+    if (ciudadSeleccionada === 'Seleccione una ciudad') {
+      ciudadSeleccionada = null;
+    }
+  
     const usuario = {
       id: this.idUsuarioCargado,
       nombre: this.nombre,
@@ -125,7 +137,7 @@ export class BasicosComponent implements OnInit {
       email: this.correo,
       telefono: this.telefono,
       direccion: this.direccion,
-      ciudad: this.ciudad,
+      ciudad: ciudadSeleccionada, // Utilizar ciudadSeleccionada en lugar de this.ciudad
       sexo: this.sexo,
       idRol: this.idRol
     };

@@ -73,10 +73,9 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="departamento" class="label">Departamento:</label>
-              <select id="departamento" class="form-control" formControlName="departamento"
-                (change)="onDepartamentoChange($event)" [ngClass]="{'is-invalid': isFieldInvalid('departamento')}">
-                <option *ngFor="let departamento of departamentos" [value]="departamento.id">{{ departamento.nombre }}
-                </option>
+              <select id="departamento" class="form-control" formControlName="departamento" (change)="onDepartamentoChange($event)" [ngClass]="{'is-invalid': isFieldInvalid('departamento')}">
+                <option [value]="null">Seleccione un departamento</option>
+                <option *ngFor="let departamento of departamentos" [value]="departamento.id">{{ departamento.nombre }}</option>
               </select>
               <div *ngIf="isFieldInvalid('departamento')" class="invalid-feedback">Departamento es obligatorio.</div>
             </div>
@@ -84,8 +83,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="ciudad" class="label">Ciudad:</label>
-              <select id="ciudad" class="form-control" formControlName="ciudad"
-                [ngClass]="{'is-invalid': isFieldInvalid('ciudad')}">
+              <select id="ciudad" class="form-control" formControlName="ciudad" [ngClass]="{'is-invalid': isFieldInvalid('ciudad')}">
                 <option *ngFor="let ciudad of ciudades" [value]="ciudad.id">{{ ciudad.ciudad }}</option>
               </select>
               <div *ngIf="isFieldInvalid('ciudad')" class="invalid-feedback">Ciudad es obligatorio.</div>

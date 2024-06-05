@@ -20,6 +20,7 @@ export class DatosBasicosComponent implements OnInit {
   departamento: string | undefined;
   ciudadSeleccionada: number | null = null;
   departamentoSeleccionado: number | null = null;
+  loadingCities: boolean = false; 
 
   constructor(
     public router: Router,
@@ -32,12 +33,12 @@ export class DatosBasicosComponent implements OnInit {
       id: [{ value: '', disabled: true }],
       nombre: ['', Validators.required],
       tipodocumento: ['', Validators.required],
-      departamento: ['', Validators.required],
+      departamento: [null, Validators.required],
       documento: ['', Validators.required],
       direccion: ['', Validators.required],
       telefono: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      ciudad: ['', Validators.required],
+      ciudad: [null, Validators.required],
       sexo: ['', Validators.required]
     });
   }
@@ -56,7 +57,6 @@ export class DatosBasicosComponent implements OnInit {
   isFieldInvalid(field: string): boolean {
     const control = this.userForm.get(field);
     return !!control && !control.valid && control.touched;
-
   }
 
   viewEdit(): void {
@@ -88,9 +88,10 @@ export class DatosBasicosComponent implements OnInit {
 
             if (departamentoId) {
               this.departamentoSeleccionado = departamentoId;
+              this.loadingCities = true; // Evitar sobreescribir ciudades cargadas de la BD
               // Llamar a onDepartamentoChange después de asignar departamentoId
               setTimeout(() => {
-                this.onDepartamentoChange({ target: { value: departamentoId } });
+                this.onDepartamentoChange({ target: { value: departamentoId } }, true);
               });
             }
           }
@@ -105,7 +106,7 @@ export class DatosBasicosComponent implements OnInit {
   fetchDepartamentos(): void {
     this.utilsService.lecturaDepartamentos().subscribe(
       (data) => {
-        this.departamentos = [{ id: null, nombre: 'Selecciona departamento' }, ...data.departamentos];
+        this.departamentos = data.departamentos;
       },
       (err) => {
         console.log(err); // Manejo de errores
@@ -113,35 +114,50 @@ export class DatosBasicosComponent implements OnInit {
     );
   }
 
-  onDepartamentoChange(event: any): void {
+  onDepartamentoChange(event: any, isInitialLoad: boolean = false): void {
     const departamentoId = event?.target?.value;
-    console.log(departamentoId);
     if (departamentoId) {
+      if (!isInitialLoad) {
+        this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }]; // Inicializar la lista de ciudades
+        this.userForm.get('ciudad')?.setValue(null); // Reiniciar el valor seleccionado de ciudad
+      }
       this.utilsService.lecturaCiudades(departamentoId).subscribe(
         (data) => {
-          console.log(data);
-          this.ciudades = data.ciudades;
+          this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }, ...data.ciudades];
+          if (isInitialLoad && this.ciudadSeleccionada) {
+            this.userForm.get('ciudad')?.setValue(this.ciudadSeleccionada); // Establecer la ciudad de la BD
+            this.loadingCities = false;
+          }
         },
         (err) => {
           console.log(err); // Manejo de errores
         }
       );
+    } else {
+      this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }];
     }
   }
 
   onSubmit(): void {
+    const departamentoSeleccionado = this.userForm.get('departamento')?.value;
+    const ciudadSeleccionada = this.userForm.get('ciudad')?.value;
+  
+    if (!departamentoSeleccionado || departamentoSeleccionado === 'null') {
+      alert('Por favor selecciona un departamento');
+      return;
+    }
+  
+    if (!ciudadSeleccionada || ciudadSeleccionada === 'null') {
+      alert('Por favor selecciona una ciudad');
+      return;
+    }
+  
     if (this.userForm.valid) {
-      const departamentoSeleccionado = this.userForm.get('departamento')?.value;
-      if (departamentoSeleccionado === null) {
-        alert('Por favor selecciona un departamento');
-        return; // Detener el envío del formulario si no se selecciona un departamento
-      }
-
       const updatedUser = {
         ...this.userForm.getRawValue(),
         id: this.userId
       };
-
+  
       this.userService.updateUser(updatedUser).subscribe(
         response => {
           if (response.estado === 'Ok') {
@@ -161,12 +177,16 @@ export class DatosBasicosComponent implements OnInit {
           alert('Ocurrió un error interno');
         }
       );
+    } else {
+      alert('Por favor completa todos los campos requeridos correctamente');
     }
   }
+  
 
   public backHome() {
     this.router.navigate(['home']);
   }
+
   basicosRoute() {
     this.router.navigate(['basicos']);
   }

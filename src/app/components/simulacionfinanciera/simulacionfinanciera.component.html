@@ -71,7 +71,8 @@
                     <b>Cantidad : </b>
                   </div>
                   <div class="col-md-5">
-                    <input type="number" [(ngModel)]="cantidadProducto">
+                    <app-currency-input [(ngModel)]="cantidadProducto" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
+
                   </div>
                 </div>
 
@@ -107,7 +108,8 @@
                           <b>Valor : </b>
                         </div>
                         <div class="col-md-5">
-                          <input type="number" [(ngModel)]="costoMateriales">
+                          <app-currency-input [(ngModel)]="costoMateriales" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
+
                           <!-- <input type="text" [(ngModel)]="costoMaterialesView" (input)="maskInput($event)"> -->
                         </div>
                       </div>
@@ -120,7 +122,9 @@
                           <b>Valor : </b>
                         </div>
                         <div class="col-md-5">
-                          <input type="number" [(ngModel)]="costoCompra">
+                          <app-currency-input [(ngModel)]="costoCompra" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
+
+                          
                         </div>
                       </div>
                     </div>
@@ -147,8 +151,7 @@
                           <b>Valor : </b>
                         </div>
                         <div class="col-md-5">
-                          <input type="number" [(ngModel)]="costoMateriales">
-                          <!-- <input type="text" [(ngModel)]="costoMaterialesView" (input)="maskInput($event)"> -->
+                          <app-currency-input [(ngModel)]="costoMateriales" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
                         </div>
                       </div>
                     </div>

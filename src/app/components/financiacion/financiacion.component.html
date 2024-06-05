@@ -13,8 +13,8 @@
       <h2>Valor:</h2>
     </div>
     <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Digite aquí" [(ngModel)]="valor" name="valor" required>
-    </div>
+        <app-currency-input [(ngModel)]="valor" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
+      </div>
   </div>
 
   <div class="row">
@@ -71,10 +71,10 @@
         </tr>
       </thead>
       <tr>
-        <td>{{options[0].valor}}</td>
+        <td>{{options[0].valor| currencyFormat }}</td>
         <td>{{options[0].tasaMensual}}</td>
         <td>{{options[0].cantidadPeriodos}}</td>
-        <td>{{options[0].cuota}}</td>
+        <td>{{options[0].cuota| currencyFormat }}</td>
       </tr>
     </table>
   <hr>
@@ -92,22 +92,22 @@
     </thead>
     <tr *ngFor="let option of options">
       <td>
-        {{ option.periodo }}
+        {{ option.periodo| currencyFormat  }}
       </td>
       <td>
-        {{ option.capitalInicial }}
+        {{ option.capitalInicial| currencyFormat  }}
       </td>
       <td>
-        {{ option.cuota }}
+        {{ option.cuota| currencyFormat  }}
       </td>
       <td>
-        {{ option.interes }}
+        {{ option.interes| currencyFormat  }}
       </td>
       <td>
-        {{ option.amortizacion }}
+        {{ option.amortizacion| currencyFormat  }}
       </td>
       <td>
-        {{ option.saldo }}
+        {{ option.saldo| currencyFormat  }}
       </td>
     </tr>
   </table>

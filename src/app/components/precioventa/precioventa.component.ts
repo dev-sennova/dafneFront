@@ -49,7 +49,6 @@ export class PrecioventaComponent {
     console.log("Usuario cargado: "+this.idUsuarioCargado);
 
     this.cargarImpuestos();
-    this.cargarCosto(this.idUsuarioCargado);
     this.cargarPrecioventa(this.idUsuarioCargado);
   }
 

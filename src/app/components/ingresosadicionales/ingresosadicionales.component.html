@@ -1,11 +1,13 @@
 <div class="container">
 
   <br>
-  <span><img src="./assets/iconos/simulacion.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen" class="img-fluid"></span>
-  <span><b style="font-size: 1.8rem;">  Simulación financiera</b></span>
+  <span><img src="./assets/iconos/simulacion.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen"
+      class="img-fluid"></span>
+  <span><b style="font-size: 1.8rem;"> Simulación financiera</b></span>
   <hr>
   <h1>Creación de ingresos adicionales:</h1>
-  <img src="./assets/imagenes/separadorsim.jpg" style="max-width: 140px; max-height: 20px;" alt="Imagen" class="img-fluid">
+  <img src="./assets/imagenes/separadorsim.jpg" style="max-width: 140px; max-height: 20px;" alt="Imagen"
+    class="img-fluid">
   <br>
 
   <div class="row">
@@ -13,7 +15,7 @@
       <h2>Concepto:</h2>
     </div>
     <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Digite aquí" [(ngModel)]="concepto" name="concepto" required>
+      <input type="text" class="form-control" placeholder="Digite aquí" [(ngModel)]="concepto" name="concepto" required>
     </div>
   </div>
 
@@ -22,7 +24,7 @@
       <h2>Valor:</h2>
     </div>
     <div class="col-md-6">
-        <input type="text" class="form-control" placeholder="Digite aquí" [(ngModel)]="valor" name="valor" required>
+      <app-currency-input [(ngModel)]="valor" [placeholder]="'Digite aquí'" numericOnly></app-currency-input>
     </div>
   </div>
 
@@ -51,7 +53,7 @@
         {{ option.concepto }}
       </td>
       <td>
-        {{ option.valor }}
+        {{ option.valor| currencyFormat }}
       </td>
     </tr>
   </table>
