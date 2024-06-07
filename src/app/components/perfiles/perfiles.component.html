@@ -22,7 +22,8 @@
       <h2>Valor a pagar:</h2>
     </div>
     <div class="col-md-6">
-        <input type="number" class="form-control" placeholder="Digite aquí" [(ngModel)]="precio" name="precio" required>
+      <app-currency-input  [placeholder]="'Digite aquí'" [(ngModel)]="precio" name="precio" numericOnly></app-currency-input>
+
     </div>
   </div>
 
@@ -51,7 +52,7 @@
         {{ option.perfil }}
       </td>
       <td>
-        {{ option.precio }}
+        {{ option.precio| currencyFormat }}
       </td>
     </tr>
   </table>

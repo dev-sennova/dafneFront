@@ -1,3 +1,7 @@
+## Implementacion-guards-y-formato-moneda
+04/06/2024
+Se implementan los guards, los cuales se encargan de restringir las rutas dependiendo el rol del usuario que se loguea. Ahora, las rutas son seguras, y el admin no puede ingresar a las vistas del usuario, ni viceversa. Ademas, se implementa el formato moneda en los input que manejan cantidades, o valores superiores a 1.000. Se ajusta tambien el formato de estas cantidades en las tablas para su correcta visualizacion.
+
 ## Implementacion-vista-edicion-datos-Basicos
 27/5/2024
 Se implementa una vista para que el usuario pueda editar y consultar los datos basicos que ingreso en su registro como emprendedor. Se implementa tambien el campo "departamento" tanto en la vista de registro como de edición, el cual permite un filtrado de las ciudades mas sencillo y eficiente, ahora al escoger un departamento, se desplegara la lista de ciudades y municipios asociados a este mismo. 

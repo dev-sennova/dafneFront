@@ -98,6 +98,9 @@ import { EmpresaformalizacionComponent } from './components/empresaformalizacion
 import { PersonaformalizacionComponent } from './components/personaformalizacion/personaformalizacion.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DatosBasicosComponent } from './components/datos-basicos/datos-basicos.component';
+import { CurrencyInputComponent } from './currency-input/currency-input.component';
+import { NumericOnlyDirective } from './numeric-only.directive';
+import { CurrencyFormatPipe } from './currency-format.pipe';
 
 const materialModules = [
   MatCardModule,
@@ -184,7 +187,10 @@ const materialModules = [
     EmpresaformalizacionComponent,
     PersonaformalizacionComponent,
     ChangePasswordComponent,
-    DatosBasicosComponent
+    DatosBasicosComponent,
+    CurrencyInputComponent,
+    NumericOnlyDirective,
+    CurrencyFormatPipe
   ],
   imports: [
     BrowserModule,
