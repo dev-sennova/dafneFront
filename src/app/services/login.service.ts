@@ -96,7 +96,7 @@ export class LoginService {
       );
   
       // Redireccionar según el rol
-      if (response.rol == 1) {
+      if (response.rol == 1||response.rol==2) {
         this.router.navigate(['administrador']);
       } else if (response.rol == 3) {
         this.router.navigate(['home']);

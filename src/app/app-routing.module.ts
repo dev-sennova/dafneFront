@@ -56,6 +56,11 @@ import { PersonaformalizacionComponent } from './components/personaformalizacion
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { DatosBasicosComponent } from './components/datos-basicos/datos-basicos.component';
 import { loginAdmin, loginUser } from './components/guards/role.guard';
+import { HobbiesPendientesComponent } from './components/hobbies-pendientes/hobbies-pendientes.component';
+import { SuenosPendientesComponent } from './components/suenos-pendientes/suenos-pendientes.component';
+import { IdeasPendientesComponent } from './components/ideas-pendientes/ideas-pendientes.component';
+import { CriteriosPendientesComponent } from './components/criterios-pendientes/criterios-pendientes.component';
+import { VerAvanceComponent } from './components/ver-avance/ver-avance.component';
 
 const routes: Routes = [
     //{ path: "", component: AppComponent, pathMatch: "full" },
@@ -114,8 +119,13 @@ const routes: Routes = [
     { path: "empresaformalizacion", component:EmpresaformalizacionComponent, pathMatch: "full", canActivate:[loginUser]},
     { path: "personaformalizacion", component:PersonaformalizacionComponent, pathMatch: "full", canActivate:[loginUser]},
     { path: "change-password", component:ChangePasswordComponent,pathMatch:"full"},
-    { path: "datos-basicos", component:DatosBasicosComponent, pathMatch:"full"}
-];
+    { path: "datos-basicos", component:DatosBasicosComponent, pathMatch:"full"},
+    { path: "hobbies-pendientes", component:HobbiesPendientesComponent, pathMatch:"full"},
+    { path: "suenos-pendientes", component:SuenosPendientesComponent, pathMatch:"full"},
+    { path: "ideas-pendientes", component:IdeasPendientesComponent,pathMatch:"full"},
+    { path: "criterios-pendientes", component:CriteriosPendientesComponent,pathMatch:"full"},
+    { path: "ver-avance", component: VerAvanceComponent, pathMatch:"full"}
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

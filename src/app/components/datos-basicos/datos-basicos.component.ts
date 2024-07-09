@@ -16,21 +16,22 @@ export class DatosBasicosComponent implements OnInit {
   isEditing: boolean = false;
   departamentos: any[] = [];
   ciudades: any[] = [];
-  ciudad: string | undefined;
-  departamento: string | undefined;
   ciudadSeleccionada: number | null = null;
   departamentoSeleccionado: number | null = null;
-  loadingCities: boolean = false; 
+  loadingCities: boolean = false;
+  userRol: string | null = null;
+  crearOrientador: boolean = false;
+  orientadorId: number | null=null;
 
   constructor(
     public router: Router,
     private fb: FormBuilder,
     private userService: BasicosService,
     private utilsService: UtilsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private basicosService: BasicosService
   ) {
     this.userForm = this.fb.group({
-      id: [{ value: '', disabled: true }],
       nombre: ['', Validators.required],
       tipodocumento: ['', Validators.required],
       departamento: [null, Validators.required],
@@ -46,8 +47,17 @@ export class DatosBasicosComponent implements OnInit {
   ngOnInit(): void {
     const userIdString = localStorage.getItem('identificador_emprendedor');
     this.userId = userIdString ? Number(userIdString) : null;
+    this.userRol = localStorage.getItem('rol');
+    const orientadorIdString = localStorage.getItem('identificador_usuario');
+    this.orientadorId = orientadorIdString ? Number(orientadorIdString) : null;
 
-    if (this.userId !== null) {
+    // Verificar si el usuario tiene rol '2' y no tiene userId asignado
+    if (this.userRol === '2' && this.userId === null) {
+      this.crearOrientador = true;
+      this.isEditing = true;
+      this.userForm.enable(); // Habilitar el formulario para creación
+    } else if (this.userId !== null) {
+      this.isEditing = true;
       this.viewEdit();
     }
 
@@ -61,7 +71,6 @@ export class DatosBasicosComponent implements OnInit {
 
   viewEdit(): void {
     if (this.userId !== null) {
-      this.isEditing = true;
       this.userService.getUserById(this.userId).subscribe(
         data => {
           if (data.estado === 'Ok' && data.user) {
@@ -88,8 +97,7 @@ export class DatosBasicosComponent implements OnInit {
 
             if (departamentoId) {
               this.departamentoSeleccionado = departamentoId;
-              this.loadingCities = true; // Evitar sobreescribir ciudades cargadas de la BD
-              // Llamar a onDepartamentoChange después de asignar departamentoId
+              this.loadingCities = true;
               setTimeout(() => {
                 this.onDepartamentoChange({ target: { value: departamentoId } }, true);
               });
@@ -100,6 +108,9 @@ export class DatosBasicosComponent implements OnInit {
           console.error(error);
         }
       );
+    } else {
+      this.isEditing = false;
+      this.userForm.disable();
     }
   }
 
@@ -109,7 +120,7 @@ export class DatosBasicosComponent implements OnInit {
         this.departamentos = data.departamentos;
       },
       (err) => {
-        console.log(err); // Manejo de errores
+        console.log(err);
       }
     );
   }
@@ -118,14 +129,14 @@ export class DatosBasicosComponent implements OnInit {
     const departamentoId = event?.target?.value;
     if (departamentoId) {
       if (!isInitialLoad) {
-        this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }]; // Inicializar la lista de ciudades
-        this.userForm.get('ciudad')?.setValue(null); // Reiniciar el valor seleccionado de ciudad
+        this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }];
+        this.userForm.get('ciudad')?.setValue(null);
       }
       this.utilsService.lecturaCiudades(departamentoId).subscribe(
         (data) => {
           this.ciudades = [{ id: null, ciudad: 'Seleccione una ciudad' }, ...data.ciudades];
           if (isInitialLoad && this.ciudadSeleccionada) {
-            this.userForm.get('ciudad')?.setValue(this.ciudadSeleccionada); // Establecer la ciudad de la BD
+            this.userForm.get('ciudad')?.setValue(this.ciudadSeleccionada);
             this.loadingCities = false;
           }
         },
@@ -139,49 +150,64 @@ export class DatosBasicosComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const departamentoSeleccionado = this.userForm.get('departamento')?.value;
-    const ciudadSeleccionada = this.userForm.get('ciudad')?.value;
-  
-    if (!departamentoSeleccionado || departamentoSeleccionado === 'null') {
-      alert('Por favor selecciona un departamento');
-      return;
-    }
-  
-    if (!ciudadSeleccionada || ciudadSeleccionada === 'null') {
-      alert('Por favor selecciona una ciudad');
-      return;
-    }
-  
     if (this.userForm.valid) {
-      const updatedUser = {
-        ...this.userForm.getRawValue(),
-        id: this.userId
-      };
-  
-      this.userService.updateUser(updatedUser).subscribe(
-        response => {
-          if (response.estado === 'Ok') {
-            Swal.fire({
-              title: "Usuario editado exitosamente",
-              text: "El usuario ha sido editado exitosamente",
-              icon: "success"
-            }).then(() => {
-              this.userForm.markAsPristine(); // Marcar el formulario como "pristine"
-            });
-          } else {
-            alert('Error al actualizar el usuario');
+      const user = this.userForm.getRawValue();
+
+      if (this.userId === null) {
+        user.id = this.orientadorId
+        user.idRol = this.userRol; // Asumiendo que rolId puede ser un string válido en tu backend
+        this.basicosService.crearUsuario(user).subscribe(
+          response => {
+            if (response.estado === 'Ok') {
+              localStorage.setItem('identificador_emprendedor', response.idUsuario.toString());
+              Swal.fire({
+                title: "Usuario registrado exitosamente",
+                text: "El usuario ha sido registrado exitosamente",
+                icon: "success"
+              }).then(() => {
+                this.userForm.markAsPristine(); // Marcar el formulario como "pristine"
+                this.router.navigate(['home']);
+              });
+            } else {
+              alert('Error al registrar el usuario');
+            }
+          },
+          error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error interno');
           }
-        },
-        error => {
-          console.error('Error:', error);
-          alert('Ocurrió un error interno');
-        }
-      );
+        );
+      } else {
+        // Actualizar usuario existente
+        const updatedUser = {
+          ...user,
+          id: this.userId
+        };
+
+        this.userService.updateUser(updatedUser).subscribe(
+          response => {
+            if (response.estado === 'Ok') {
+              Swal.fire({
+                title: "Usuario editado exitosamente",
+                text: "El usuario ha sido editado exitosamente",
+                icon: "success"
+              }).then(() => {
+                this.userForm.markAsPristine(); // Marcar el formulario como "pristine"
+              });
+            } else {
+              alert('Error al actualizar el usuario');
+            }
+          },
+          error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error interno');
+          }
+        );
+      }
     } else {
       alert('Por favor completa todos los campos requeridos correctamente');
     }
   }
-  
 
   public backHome() {
     this.router.navigate(['home']);

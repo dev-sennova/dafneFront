@@ -1,0 +1,114 @@
+.container {
+  margin-top: 30px;
+  width: 70%;
+  height: 78vh;
+  background-color: #ffffff;
+  border: solid 2px rgb(255, 255, 255);
+  box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.7);
+  overflow-y: auto;
+
+}
+
+.filtro {
+  width: 60%;
+  margin-top: 30px;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+@media (max-width: 545px) {
+  .filtro {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e9a1e;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a4ab27;
+}
+
+.button-design {
+  border-radius: 1rem;
+  width: 100px;
+  height: 30px;
+  border: none;
+  background-color: rgba(255, 165, 0, 0.7);
+  font-weight: 300;
+}
+
+.plus-button {
+  background: #F9D65D 0% 0% no-repeat padding-box;
+  opacity: 0.75;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 10%;
+  color: black;
+  margin-top: 20px;
+  width: 100px;
+
+}
+
+.table {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 165, 0, 0.1);
+}
+
+/* Estilos para el hover de las filas */
+.table-striped tbody tr:hover {
+  background-color: rgba(255, 165, 0, 0.3);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.title-container {
+  margin-bottom: 20px;
+}
+
+.user-title {
+  font-size: 24px;
+  margin-top: 30px;
+  margin-left: 10%;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.6);
+}
+
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group-append select {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

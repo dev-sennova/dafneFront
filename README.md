@@ -1,3 +1,7 @@
+## Implementacion-Vistas-del-rol-orientador
+09/07/2024
+Se implementan todas las vistas relacionadas al orientador. Ahora, cada emprendedor registrado, tiene asociado un orientador, el cual se encargará de llevar un registro del progreso de los emprendedores y regular la informacion personalizada que estos ingresen. El orientador puede aceptar o rechazar informacion personalizada en los hobbies, sueños, criterios e ideas. 
+
 ## Implementacion-guards-y-formato-moneda
 04/06/2024
 Se implementan los guards, los cuales se encargan de restringir las rutas dependiendo el rol del usuario que se loguea. Ahora, las rutas son seguras, y el admin no puede ingresar a las vistas del usuario, ni viceversa. Ademas, se implementa el formato moneda en los input que manejan cantidades, o valores superiores a 1.000. Se ajusta tambien el formato de estas cantidades en las tablas para su correcta visualizacion.

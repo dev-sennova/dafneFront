@@ -1,0 +1,174 @@
+.container {
+    margin-top: 30px;
+    width: 70%;
+    height: 78vh;
+    background-color: #ffffff;
+    border: solid 2px rgb(255, 255, 255);
+    box-shadow: 0px 0px 10px rgba(255, 165, 0, 0.7);
+    overflow-y: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #dee2e6;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+    width: 120px; /* Ajusta el ancho de la columna de acciones según sea necesario */
+}
+
+.table th {
+    background-color: #f1f1f1; /* Color de fondo para las cabeceras */
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 165, 0, 0.1); /* Color de fondo para filas impares */
+}
+
+.table tbody tr:hover {
+    background-color: rgba(255, 165, 0, 0.3); /* Color de fondo para filas al pasar el mouse */
+}
+
+/* Estilos para la tabla cuando hay scroll */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.user-title {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-left: 10%;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(255, 165, 0, 0.6);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group-append select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.button-design {
+    border-radius: 1rem;
+    width: 100px;
+    height: 30px;
+    border: none;
+    background-color: rgba(255, 165, 0, 0.7);
+    font-weight: 300;
+}
+
+.plus-button {
+    background: #f9d65d;
+    opacity: 0.75;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    color: black;
+    width: 100px;
+    margin-top: 20px;
+}
+
+/* Estilos para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3e9a1e;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a4ab27;
+}
+
+.bin-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: rgb(255, 95, 95);
+    cursor: pointer;
+    border: 2px solid rgb(255, 201, 201);
+    transition-duration: 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .bin-bottom {
+    width: 15px;
+    z-index: 2;
+  }
+  .bin-top {
+    width: 17px;
+    transform-origin: right;
+    transition-duration: 0.3s;
+    z-index: 2;
+  }
+  .bin-button:hover .bin-top {
+    transform: rotate(45deg);
+  }
+  .bin-button:hover {
+    background-color: rgb(255, 0, 0);
+  }
+  .bin-button:active {
+    transform: scale(0.9);
+  }
+  .garbage {
+    position: absolute;
+    width: 14px;
+    height: auto;
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+  .bin-button:hover .garbage {
+    animation: throw 0.4s linear;
+  }
+  @keyframes throw {
+    from {
+      transform: translate(-400%, -700%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
+  }
+  .button-container {
+    display: flex;
+    align-items: center;
+}
+
+.plus-button-2 {
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    background-color: rgba(255, 165, 0); /* Color verde */
+    color: #fff; /* Color del ícono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    margin-right: 5px; /* Espacio entre los botones */
+}

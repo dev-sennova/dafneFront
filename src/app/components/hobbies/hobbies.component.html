@@ -7,33 +7,34 @@
   <img src="./assets/imagenes/separador.jpg" style="max-width: 140px; max-height: 20px;" alt="Imagen" class="img-fluid">
   <br>
 
+  <!-- Agrega el mensaje condicional -->
+  <div *ngIf="botonBloqueado" class="alert alert-info" role="alert">
+    Tienes un hobbie pendiente. Le hemos avisado a tu orientador, para que lo acepte lo antes posible.
+  </div>
+
   <div class="row">
-
     <div class="col-md-8">
-
       <div class="row">
-
         <div class="col-md-6">
           <div class="form-check" #checkboxes *ngFor="let elemento of arrayOpciones">
             <label>
-              <input type="checkbox" class="form-check-input" [(ngModel)]="elemento.seleccionado" (change)="onCheckboxChange($event, elemento)" [value]="elemento.idHobby" [disabled]="elemento.valorModeracion === 0">
+              <input type="checkbox" class="form-check-input" [(ngModel)]="elemento.seleccionado" (change)="onCheckboxChange($event, elemento)" [value]="elemento.idHobby" [disabled]="botonBloqueado || elemento.valorModeracion === 0">
               {{ elemento.hobby }}
             </label>
           </div>
         </div>
-
         <div class="col-xs-12 col-md-6">
-          <p>De la lista, selecciona o adiciona de ser necesario máximo 5 hobbies, valoralos según su importancia.</p>
+          <p>De la lista, selecciona o adiciona de ser necesario máximo 5 hobbies, valóralos según su importancia.</p>
           <div *ngIf="checkedCount>5" class="form-group alert alert-danger" role="alert">
             <p>Ha excedido la cantidad de posibilidades a elegir, por favor elija sólo un máximo de 5</p>
           </div>
           <br>
           <div class="form-group">
-            <button type="submit" class="plus-button" (click)="openPopup()">Ingresa tu hobbie personalizado</button>
+            <button type="submit" class="plus-button" (click)="openPopup()" [disabled]="botonBloqueado">Ingresa tu hobbie personalizado</button>
           </div>
           <form method="post">
             <!-- <button type="submit" (click)="experienciaRoute()">Continuemos</button> -->
-            <button class="ideacion-button" *ngIf="checkedCount<6 && checkedCount>0" type="submit" (click)="validateHobbies()">Continuemos</button>
+            <button class="ideacion-button" *ngIf="checkedCount<6 && checkedCount>0" type="submit" (click)="validateHobbies()" [disabled]="botonBloqueado">Continuemos</button>
           </form>
             <button class="plus-button" (click)="homeRoute()">Volver al menú</button>
         </div>
@@ -43,7 +44,5 @@
     <div class="col-md-4">
       <img src="./assets/imagenes/hobbies.png" class="img-fluid" id="img-hobbies" alt="Imagen" style="max-height: 100%; max-width: 100%;">
     </div>
-
   </div>
-
 </div>

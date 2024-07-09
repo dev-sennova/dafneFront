@@ -101,6 +101,11 @@ import { DatosBasicosComponent } from './components/datos-basicos/datos-basicos.
 import { CurrencyInputComponent } from './currency-input/currency-input.component';
 import { NumericOnlyDirective } from './numeric-only.directive';
 import { CurrencyFormatPipe } from './currency-format.pipe';
+import { HobbiesPendientesComponent } from './components/hobbies-pendientes/hobbies-pendientes.component';
+import { SuenosPendientesComponent } from './components/suenos-pendientes/suenos-pendientes.component';
+import { IdeasPendientesComponent } from './components/ideas-pendientes/ideas-pendientes.component';
+import { CriteriosPendientesComponent } from './components/criterios-pendientes/criterios-pendientes.component';
+import { VerAvanceComponent } from './components/ver-avance/ver-avance.component';
 
 const materialModules = [
   MatCardModule,
@@ -190,7 +195,12 @@ const materialModules = [
     DatosBasicosComponent,
     CurrencyInputComponent,
     NumericOnlyDirective,
-    CurrencyFormatPipe
+    CurrencyFormatPipe,
+    HobbiesPendientesComponent,
+    SuenosPendientesComponent,
+    IdeasPendientesComponent,
+    CriteriosPendientesComponent,
+    VerAvanceComponent
   ],
   imports: [
     BrowserModule,

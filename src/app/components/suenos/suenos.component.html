@@ -1,47 +1,55 @@
 <div class="container">
 
   <br>
-  <span><img src="./assets/iconos/bombilla.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen" class="img-fluid"></span>
-  <span><b style="font-size: 1.8rem;">  Ideación</b></span>
+  <span><img src="./assets/iconos/bombilla.svg" style="max-width: 40px; max-height: 40px;" alt="Imagen"
+      class="img-fluid"></span>
+  <span><b style="font-size: 1.8rem;"> Ideación</b></span>
   <hr>
   <h1>Y si nos compartes tus sueños?</h1>
   <img src="./assets/imagenes/separador.jpg" style="max-width: 140px; max-height: 20px;" alt="Imagen" class="img-fluid">
   <br>
 
+  <div *ngIf="botonBloqueado" class="alert alert-info" role="alert">
+    Tienes un sueño pendiente. Le hemos avisado a tu orientador, para que lo acepte lo antes posible.
+  </div>
+
+  <div class="form-group">
+    <br>
+    <div class="row">
+
+      <div class="col-md-1"></div>
+
+      <div class="col-md-6">
+        <p>De la siguiente lista, selecciona o adiciona máximo 5 aspiraciones que tengas.</p>
+
+        <div class="form-check" #checkboxes *ngFor="let elemento of arrayOpciones">
+          <label>
+            <input type="checkbox" class="form-check-input" [(ngModel)]="elemento.seleccionado"
+              (change)="onCheckboxChange($event, elemento)" [value]="elemento.idSueno"
+              [disabled]="botonBloqueado || elemento.valorModeracion === 0">
+            {{ elemento.sueno }}
+          </label>
+        </div>
         <div class="form-group">
-          <br>
-            <div class="row">
-
-              <div class="col-md-1"></div>
-
-              <div class="col-md-6">
-                <p>De la siguiente lista, selecciona o adiciona máximo 5 aspiraciones que tengas.</p>
-
-                <div class="form-check" #checkboxes *ngFor="let elemento of arrayOpciones">
-                  <label>
-                    <input type="checkbox" class="form-check-input" [(ngModel)]="elemento.seleccionado" (change)="onCheckboxChange($event, elemento)" [value]="elemento.idSueno" [disabled]="elemento.valorModeracion === 0">
-                    {{ elemento.sueno }}
-                  </label>
-                </div>
-                <div class="form-group">
-                  <button class="plus-button" type="submit" (click)="openPopup()">Ingresa tu sueño personalizado</button>
-                </div>
-                <div *ngIf="checkedCount>5" class="form-group alert alert-danger" role="alert">
-                  <p>Ha excedido la cantidad de posibilidades a elegir, por favor elija sólo un máximo de 5</p>
-                </div>
-                <form method="post">
-                  <button *ngIf="checkedCount<6 && checkedCount>0" class="ideacion-button" type="submit" (click)="validateSuenos()">Continuemos</button>
-                </form>
-                <!--****************************************************************************-->
-                  <button class="plus-button" (click)="homeRoute()">Volver al menú</button>
-                <!--****************************************************************************-->
-              </div>
-
-            <div class="col-md-5 mt-3 pl-5">
-              <img src="./assets/imagenes/suenos.png" alt="Imagen" class="img-fluid" style="max-height: 90%; max-width: 90%;">
-            </div>
-
+          <button class="plus-button" type="submit" (click)="openPopup()" [disabled]="botonBloqueado">Ingresa tu sueño personalizado</button>
+        </div>
+        <div *ngIf="checkedCount>5" class="form-group alert alert-danger" role="alert">
+          <p>Ha excedido la cantidad de posibilidades a elegir, por favor elija sólo un máximo de 5</p>
+        </div>
+        <form method="post">
+          <button *ngIf="checkedCount<6 && checkedCount>0" class="ideacion-button" type="submit"
+            (click)="validateSuenos()" [disabled]="botonBloqueado">Continuemos</button>
+        </form>
+        <!--****************************************************************************-->
+        <button class="plus-button" (click)="homeRoute()">Volver al menú</button>
+        <!--****************************************************************************-->
       </div>
+
+      <div class="col-md-5 mt-3 pl-5">
+        <img src="./assets/imagenes/suenos.png" alt="Imagen" class="img-fluid" style="max-height: 90%; max-width: 90%;">
+      </div>
+
     </div>
+  </div>
 
 </div>

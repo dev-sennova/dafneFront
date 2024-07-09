@@ -5,6 +5,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { LoginService } from 'src/app/services/login.service';
 import { HobbiesService } from 'src/app/services/hobbies.service';
 import Swal from 'sweetalert2';
+import { OrientadorService } from 'src/app/services/orientador.service';
 
 @Component({
   selector: 'app-hobbies',
@@ -14,11 +15,11 @@ import Swal from 'sweetalert2';
 export class HobbiesComponent {
   hobbies: string | undefined;
   valorImportancia: string | undefined;
-  otros: boolean=false;
-  hobbienuevo: string='';
+  otros: boolean = false;
+  hobbienuevo: string = '';
   checkedCount: number = 0;
-  arrayOpciones:any=[];
-  arrayHobbies:any=[];
+  arrayOpciones: any = [];
+  arrayHobbies: any = [];
   idHobbieGeneral: any;
   idHobbiePropio: any;
   hobbieGeneral: any;
@@ -27,36 +28,37 @@ export class HobbiesComponent {
   @ViewChildren('checkboxes') checkboxesRef!: QueryList<ElementRef>;
   idHobby: any;
   idUsuario: any;
-  countHobbies: number=0;
+  countHobbies: number = 0;
+  botonBloqueado = false;
 
-//Inicio variables para validar bitacora ***
+  //Inicio variables para validar bitacora ***
   //*******************************************//
-  idModulo:number=1;
-  nombreSeccion:string="hobbies";
-  identificadorSeccion: string="";
-  variableSeccion: string="";
+  idModulo: number = 1;
+  nombreSeccion: string = "hobbies";
+  identificadorSeccion: string = "";
+  variableSeccion: string = "";
   idUsuarioCargado: any;
   valorModeracion: any;
   //*******************************************//
   //Fin variables para validar bitacora ***
 
-  constructor(public router:Router, private loginService:LoginService, private utilsService:UtilsService, private route: ActivatedRoute, private hobbiesService:HobbiesService) {
+  constructor(public router: Router, private orientadorService: OrientadorService, private loginService: LoginService, private utilsService: UtilsService, private route: ActivatedRoute, private hobbiesService: HobbiesService) {
   }
 
   ngOnInit(): void {
-      this.idUsuarioCargado=localStorage.getItem('identificador_usuario');
-      //
-      console.log("Usuario cargado: "+this.idUsuarioCargado);
+    this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
+    //
+    console.log("Usuario cargado: " + this.idUsuarioCargado);
 
-      this.verAvance(this.idUsuarioCargado,this.idModulo);
+    this.verAvance(this.idUsuarioCargado, this.idModulo);
   }
 
   //Inicio funciones nuevas para validar bitacora. ***
   //*******************************************//
-  verAvance(idUsuario:any, idModulo:any){
+  verAvance(idUsuario: any, idModulo: any) {
     this.loginService.verAvance(idUsuario, idModulo).subscribe(
       (data) => {
-        console.log("Seccion: "+JSON.stringify(data));
+        console.log("Seccion: " + JSON.stringify(data));
 
         if (data.seccion !== null) {
           this.variableSeccion = String(data.seccion.seccion);
@@ -64,46 +66,46 @@ export class HobbiesComponent {
           this.variableSeccion = this.nombreSeccion; // O cualquier valor predeterminado que desees
         }
 
-        console.log("VALOR VARIABLESECCION IN: "+this.variableSeccion);
+        console.log("VALOR VARIABLESECCION IN: " + this.variableSeccion);
         this.luegoDeObtenerVariableSeccion(this.variableSeccion);
       },
       (err) => {
         this.luegoDeObtenerVariableSeccion(this.nombreSeccion);
-        console.log("SEC ERR: "+err); // Manejo de errores
+        console.log("SEC ERR: " + err); // Manejo de errores
       }
     );
   }
 
-  luegoDeObtenerVariableSeccion(variableSeccion:any) {
+  luegoDeObtenerVariableSeccion(variableSeccion: any) {
     console.log("VALOR VARIABLESECCION OUT: " + variableSeccion);
-    this.identificadorSeccion=variableSeccion;
+    this.identificadorSeccion = variableSeccion;
     // Coloca aquí cualquier lógica que dependa de this.variableSeccion
-    console.log("Identificador Seccion: "+this.identificadorSeccion);
-    console.log("nombre Seccion: "+this.nombreSeccion);
+    console.log("Identificador Seccion: " + this.identificadorSeccion);
+    console.log("nombre Seccion: " + this.nombreSeccion);
 
-    if(this.identificadorSeccion===this.nombreSeccion){
+    if (this.identificadorSeccion === this.nombreSeccion) {
       this.obtenerHobbiesGeneral();
       this.contarHobbiesPropio(this.idUsuarioCargado);
-    }else{
-      console.log("VAL RUTA: this.router.navigate(["+this.identificadorSeccion+"])");
+    } else {
+      console.log("VAL RUTA: this.router.navigate([" + this.identificadorSeccion + "])");
       this.router.navigate([this.variableSeccion]);//validar lo del usuario
     }
   }
   //*******************************************//
   //Fin funciones nuevas para validar bitacora. ***
 
-  obtenerHobbiesGeneral(){
+  obtenerHobbiesGeneral() {
     this.hobbiesService.lecturaHobbiesGeneral().subscribe(
       (data) => {
         //
-        console.log("Data Hobb Gen:"+JSON.stringify(data));
-        for (let dato in data.hobbies){
-          this.idHobbieGeneral=data.hobbies[dato].id;
-          this.hobbieGeneral=data.hobbies[dato].hobby;
-          this.valorModeracion=data.hobbies[dato].moderacion;
-          this.arrayOpciones.push({idHobby:this.idHobbieGeneral, hobby: this.hobbieGeneral, valorModeracion: this.valorModeracion});
+        console.log("Data Hobb Gen:" + JSON.stringify(data));
+        for (let dato in data.hobbies) {
+          this.idHobbieGeneral = data.hobbies[dato].id;
+          this.hobbieGeneral = data.hobbies[dato].hobby;
+          this.valorModeracion = data.hobbies[dato].moderacion;
+          this.arrayOpciones.push({ idHobby: this.idHobbieGeneral, hobby: this.hobbieGeneral, valorModeracion: this.valorModeracion });
         }
-        console.log("ArrayAcum Gen:"+JSON.stringify(this.arrayOpciones));
+        console.log("ArrayAcum Gen:" + JSON.stringify(this.arrayOpciones));
         this.obtenerHobbiesPropios();
       },
       (err) => {
@@ -112,13 +114,13 @@ export class HobbiesComponent {
     );
   }
 
-  contarHobbiesPropio(id:any){
+  contarHobbiesPropio(id: any) {
     this.hobbiesService.countHobbiesPropio(id).subscribe(
       (data) => {
         //console.log("Data Gen:"+data);
-        this.countHobbies=data.message;
+        this.countHobbies = data.message;
         //
-        console.log("Data ContarHobPr Mess:"+this.countHobbies);
+        console.log("Data ContarHobPr Mess:" + this.countHobbies);
       },
       (err) => {
         console.log(err); // Manejo de errores
@@ -126,24 +128,27 @@ export class HobbiesComponent {
     );
   }
 
-  obtenerHobbiesPropios(){
+  obtenerHobbiesPropios() {
     this.hobbiesService.lecturaHobbiesPropio(this.idUsuarioCargado).subscribe(
       (data) => {
         //
-        console.log("Data Propio:"+JSON.stringify(data));
-        console.log("Len Data Propio:"+data.hobbies.length);
-        if(data.hobbies.length>0){
-          for (let dato in data.hobbies){
-            this.idHobbiePropio=data.hobbies[dato].id;
-            this.hobbiePropio=data.hobbies[dato].hobby;
-            this.valorModeracion=data.hobbies[dato].moderacion;
-            this.arrayOpciones.push({idHobby:this.idHobbiePropio, hobby: this.hobbiePropio, valorModeracion: this.valorModeracion});
+        console.log("Data Propio:" + JSON.stringify(data));
+        console.log("Len Data Propio:" + data.hobbies.length);
+        if (data.hobbies.length > 0) {
+          this.botonBloqueado = true;
+          for (let dato in data.hobbies) {
+            this.idHobbiePropio = data.hobbies[dato].id;
+            this.hobbiePropio = data.hobbies[dato].hobby;
+            this.valorModeracion = data.hobbies[dato].moderacion;
+            this.arrayOpciones.push({ idHobby: this.idHobbiePropio, hobby: this.hobbiePropio, valorModeracion: this.valorModeracion });
           }
+        } else {
+          this.botonBloqueado = false;
         }
-        for (let dato in this.arrayOpciones){
+        for (let dato in this.arrayOpciones) {
           //console.log("Array Opciones orden: "+dato+ "idHobbie: " + this.arrayOpciones[dato].idHobby+ "hobbie: " + this.arrayOpciones[dato].hobby);
         }
-        console.log("ArrayAcum Gen Post:"+JSON.stringify(this.arrayOpciones));
+        console.log("ArrayAcum Gen Post:" + JSON.stringify(this.arrayOpciones));
         //console.log("Array Opciones length: "+this.arrayOpciones.length);
       },
       (err) => {
@@ -157,10 +162,10 @@ export class HobbiesComponent {
     this.checkedCount = this.arrayOpciones.filter((e: any) => e.seleccionado).length;
   }
 
-  hobbieSave(hobbienuevo:string){
-    const varNuevoHobby = {idUsuario:this.idUsuarioCargado, hobby:hobbienuevo};
-    if(this.countHobbies<5){
-      this.hobbiesService.crearHobbies(varNuevoHobby).subscribe( (data)=>{
+  hobbieSave(hobbienuevo: string) {
+    const varNuevoHobby = { idUsuario: this.idUsuarioCargado, hobby: hobbienuevo };
+    if (this.countHobbies < 5) {
+      this.hobbiesService.crearHobbies(varNuevoHobby).subscribe((data) => {
         Swal.fire(
           {
             icon: 'success',
@@ -182,7 +187,7 @@ export class HobbiesComponent {
           }
         )
       });
-    }else{
+    } else {
       Swal.fire(
         {
           icon: 'error',
@@ -205,15 +210,15 @@ export class HobbiesComponent {
       .map((elemento: any) => {
         return { idHobby: elemento.idHobby, hobby: elemento.hobby };
       });
-    if(this.checkedCount<6){
+    if (this.checkedCount < 6) {
       //console.log(elementosSeleccionados);
-      for (let dato in elementosSeleccionados){
-        this.idHobby=elementosSeleccionados[dato].idHobby;
-        this.idUsuario=this.idUsuarioCargado;
+      for (let dato in elementosSeleccionados) {
+        this.idHobby = elementosSeleccionados[dato].idHobby;
+        this.idUsuario = this.idUsuarioCargado;
         //console.log("ID HOBBY LOOP: "+this.idHobby);
         //console.log("ID USER LOOP: "+this.idUsuario);
-        const varUsuario = {idUsuario:this.idUsuario, idHobby:this.idHobby};
-        this.hobbiesService.cerrarRelacionHobbies(varUsuario).subscribe( (data)=>{
+        const varUsuario = { idUsuario: this.idUsuario, idHobby: this.idHobby };
+        this.hobbiesService.cerrarRelacionHobbies(varUsuario).subscribe((data) => {
           console.log("Ok");
         }, (err) => {
           //debugger
@@ -231,8 +236,8 @@ export class HobbiesComponent {
         //this.router.navigate(['valorhobbies'], { queryParams: { id: this.idUsuarioCreado} } );
         //Inicio Modificacion Bitacora ***
         //*******************************************//
-        const bitacora = {avance:1, idSeccion:4, idUsuario:parseInt(this.idUsuarioCargado)};
-        this.loginService.crearBitacora(bitacora).subscribe( (data)=>{
+        const bitacora = { avance: 1, idSeccion: 4, idUsuario: parseInt(this.idUsuarioCargado) };
+        this.loginService.crearBitacora(bitacora).subscribe((data) => {
           console.log("Bitacora registrada");
           this.router.navigate(['valorhobbies']);
         }, (err) => {
@@ -241,13 +246,13 @@ export class HobbiesComponent {
         //*******************************************//
         //Fin Modificacion Bitacora ***
       });
-    } else{
+    } else {
       console.log("Excede la cantidad de hobbies");
     }
     // Realiza cualquier otra lógica que necesites con los elementos seleccionados
   }
 
-  suenosRoute(){
+  suenosRoute() {
     this.router.navigate(['suenos']);
   }
 
@@ -268,7 +273,7 @@ export class HobbiesComponent {
   }
   //Inicio nueva Ruta ***
   //*******************************************//
-  homeRoute(){
+  homeRoute() {
     this.router.navigate(['home']);
   }
   //*******************************************//

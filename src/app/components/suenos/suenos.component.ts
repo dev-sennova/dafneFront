@@ -28,6 +28,7 @@ export class SuenosComponent {
   idSueno: any;
   idUsuario: any;
   countSuenos: number=0;
+  botonBloqueado = false;
 
   //Inicio variables para validar bitacora ***
   //*******************************************//
@@ -132,12 +133,15 @@ export class SuenosComponent {
         console.log("Data Propio:"+JSON.stringify(data));
         console.log("Len Data Propio:"+data.suenos.length);
         if(data.suenos.length>0){
+          this.botonBloqueado=true;
           for (let dato in data.suenos){
             this.idSuenoPropio=data.suenos[dato].id;
             this.suenoPropio=data.suenos[dato].sueno;
             this.valorModeracion=data.suenos[dato].moderacion;
             this.arrayOpciones.push({idSueno:this.idSuenoPropio, sueno: this.suenoPropio, valorModeracion: this.valorModeracion});
           }
+        } else{
+          this.botonBloqueado=false;
         }
         for (let dato in this.arrayOpciones){
           //console.log("Array Opciones orden: "+dato+ "idSuenos: " + this.arrayOpciones[dato].idSuenos+ "hobbie: " + this.arrayOpciones[dato].suenos);
