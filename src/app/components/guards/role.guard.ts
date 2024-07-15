@@ -8,7 +8,7 @@ export const loginAdmin = () => {
   if (identityJSON) {
     const identity = JSON.parse(identityJSON);
 
-    if (identity == "1") {
+    if (identity == "1"||identity == "2") {
       return true;
     }
   }

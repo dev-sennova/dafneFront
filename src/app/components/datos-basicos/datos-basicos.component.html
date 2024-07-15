@@ -41,7 +41,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="correo" class="label">Correo:</label>
-              <input type="email" id="correo" class="form-control" formControlName="email" placeholder="Correo" readonly
+              <input type="email" id="correo" class="form-control" formControlName="email" placeholder="Correo" [readonly]="!crearOrientador"
                 [ngClass]="{'is-invalid': isFieldInvalid('email')}">
               <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">Correo es obligatorio y debe ser válido.
               </div>

@@ -1,0 +1,731 @@
+<div class="loader-container" *ngIf="isLoading">
+    <img src="../../../assets/gif/pantalla-carga.gif" alt="Cargando..." class="loader">
+</div>
+
+<div class="container" *ngIf="!isLoading"><br>
+
+    <div class="title-container d-flex justify-content-between align-items-center">
+        <h2 class="title">Progreso del usuario</h2>
+        <button class="plus-button btn btn-secondary" (click)="homeRoute()">Volver</button>
+    </div><br>
+    <div *ngIf="error; else userContent" class="alert">
+        <h3>El usuario aún no ha iniciado su proceso ni ha registrado sus datos básicos.</h3>
+    </div>
+
+    <ng-template #userContent>
+        <div class="usuario-info ">
+            <div class="card-body">
+                <h2 class="title-datos">Datos Básicos</h2>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Nombre:</strong> {{ nombre }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Tipo de Documento:</strong> {{ tipodocumento }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Documento:</strong> {{ documento }}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Ciudad:</strong> {{ ciudad }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Teléfono:</strong> {{ telefono }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center"><strong>Email:</strong> {{ email }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <ul class="nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentSection === 'seccion1'"
+                            (click)="selectSection('seccion1')">Módulo de Ideación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentSection === 'seccion2'"
+                            (click)="selectSection('seccion2')">Módulo de Simulación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="currentSection === 'seccion3'"
+                            (click)="selectSection('seccion3')">Módulo de Formalización</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="loader-container" *ngIf="!isLoadingseccion">
+                    <img src="../../../assets/gif/pantalla-carga.gif" alt="Cargando..." class="loader">
+                </div>
+                <div class="seccion-contenido" *ngIf="isLoadingseccion">
+                    <div *ngIf="currentSection === 'seccion1'">
+                        <div class="accordion custom-accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+                                        [disabled]="!experiencia" [ngClass]="{'disabled-button': !experiencia}">
+                                        <span>Ingreso de datos de Experiencia</span>
+                                        <img *ngIf="experiencia" src="../../../assets/imagenes/completo.png"
+                                            alt="Completo" class="icon">
+                                        <img *ngIf="!experiencia" src="../../../assets/imagenes/incompleto.png"
+                                            alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div *ngIf="experiencia">
+                                            <p><strong>Experiencia:</strong> {{ experiencia }}</p>
+                                            <p><strong>Actividades:</strong> {{ actividades }}</p>
+                                            <p><strong>Área de Experiencia:</strong> {{ areaExperiencia }}</p>
+                                        </div><br>
+                                        <div *ngIf="escolaridad">
+                                            <p><strong>Escolaridad:</strong> {{ escolaridad }}</p>
+                                            <p><strong>Nivel Escolaridad:</strong> {{ nivelescolaridad }}</p>
+                                            <p><strong>Área de Conocimiento:</strong> {{ areaconocimiento }}</p>
+                                        </div><br>
+                                        <div *ngIf="ocupacion">
+                                            <p><strong>Ocupación:</strong> {{ ocupacion }}</p>
+                                            <p><strong>Lugar:</strong> {{ lugar }}</p>
+                                            <p><strong>Área:</strong> {{ area }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
+                                        [disabled]="arrayHobbies.length === 0"
+                                        [ngClass]="{'disabled-button': arrayHobbies.length === 0}">
+                                        Selección e ingreso de Hobbies
+                                        <img *ngIf="arrayHobbies.length > 0" src="../../../assets/imagenes/completo.png"
+                                            alt="Completo" class="icon">
+                                        <img *ngIf="arrayHobbies.length === 0"
+                                            src="../../../assets/imagenes/incompleto.png" alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <li *ngFor="let hobby of arrayHobbies">{{ hobby.hobby }}</li>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree" [disabled]="arraySuenos.length === 0"
+                                        [ngClass]="{'disabled-button': arraySuenos.length === 0}">
+                                        Selección e ingreso de Sueños
+                                        <img *ngIf="arraySuenos.length > 0" src="../../../assets/imagenes/completo.png"
+                                            alt="Completo" class="icon">
+                                        <img *ngIf="arraySuenos.length === 0"
+                                            src="../../../assets/imagenes/incompleto.png" alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <li *ngFor="let sueno of arraySuenos">{{ sueno.sueno }}</li>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour" [disabled]="arrayIdeas.length === 0"
+                                        [ngClass]="{'disabled-button': arrayIdeas.length === 0}">
+                                        Selección de ideas de negocio
+                                        <img *ngIf="arrayIdeas.length > 0" src="../../../assets/imagenes/completo.png"
+                                            alt="Completo" class="icon">
+                                        <img *ngIf="arrayIdeas.length === 0"
+                                            src="../../../assets/imagenes/incompleto.png" alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <li *ngFor="let idea of arrayIdeas">{{ idea.idea }}</li>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Selección e ingreso de Criterios -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFive" aria-expanded="false"
+                                        aria-controls="collapseFive" [disabled]="arrayCriterios.length === 0"
+                                        [ngClass]="{'disabled-button': arrayCriterios.length === 0}">
+                                        Selección e ingreso de Criterios
+                                        <img *ngIf="arrayCriterios.length > 0"
+                                            src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                        <img *ngIf="arrayCriterios.length === 0"
+                                            src="../../../assets/imagenes/incompleto.png" alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <li *ngFor="let criterio of arrayCriterios">{{ criterio.criterio }}</li>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSix">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"
+                                        [disabled]="!nombreIdea" [ngClass]="{'disabled-button': !nombreIdea}">
+                                        Selección de idea final despues de evaluacion
+                                        <img *ngIf="nombreIdea" src="../../../assets/imagenes/completo.png"
+                                            alt="Completo" class="icon">
+                                        <img *ngIf="!nombreIdea" src="../../../assets/imagenes/incompleto.png"
+                                            alt="Incompleto" class="icon">
+                                    </button>
+                                </h2>
+                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <li>{{ nombreIdea }}</li>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSeven">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseSeven" aria-expanded="false"
+                                        aria-controls="collapseSeven"
+                                        [disabled]="!nombreEmpresa || !slogan || !mision || !vision"
+                                        [ngClass]="{'disabled-button': !nombreEmpresa || !slogan || !mision || !vision}">
+                                        <div class="button-content">
+                                            <span>Creación de la empresa de ideación</span>
+                                            <img *ngIf="nombreEmpresa && slogan && mision && vision"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!nombreEmpresa || !slogan || !mision || !vision"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseSeven" class="accordion-collapse collapse"
+                                    aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div *ngIf="nombreEmpresa && slogan && mision && vision">
+                                            <p><strong>Nombre de la Empresa:</strong> {{ nombreEmpresa }}</p>
+                                            <p><strong>Slogan:</strong> {{ slogan }}</p>
+                                            <p><strong>Misión:</strong> {{ mision }}</p>
+                                            <p><strong>Visión:</strong> {{ vision }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingDofa">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseDofa" aria-expanded="false"
+                                        aria-controls="collapseDofa" [disabled]="isEmptyDofaData()">
+                                        <div class="button-content">
+                                            <span>Análisis DOFA</span>
+                                            <img *ngIf="!isEmptyDofaData()" src="../../../assets/imagenes/completo.png"
+                                                alt="Completo" class="icon">
+                                            <img *ngIf="isEmptyDofaData()" src="../../../assets/imagenes/incompleto.png"
+                                                alt="Incompleto" class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseDofa" class="accordion-collapse collapse" aria-labelledby="headingDofa"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div *ngIf="!isEmptyDofaData()">
+                                            <button (click)="openDofaPopup()" class="plus-button2">Ver Matriz DOFA</button>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingEstrategia">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseEstrategia" aria-expanded="false"
+                                        aria-controls="collapseEstrategia"
+                                        [disabled]="!estrategiaData || isEmptyEstrategiaData()"
+                                        [ngClass]="{'disabled-button': !estrategiaData || isEmptyEstrategiaData()}">
+                                        <div class="button-content">
+                                            <span>Estrategias en base al DOFA</span>
+                                            <img *ngIf="!isEmptyEstrategiaData()"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf=" isEmptyEstrategiaData()"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseEstrategia" class="accordion-collapse collapse"
+                                    aria-labelledby="headingEstrategia" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <button (click)="openEstrategiasPopup()" class="plus-button2">Ver Estrategias</button>
+
+                                        <div *ngIf="!estrategiaData || isEmptyEstrategiaData()">
+                                            <p>No hay datos disponibles para mostrar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingCanvas">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseCanvas" aria-expanded="false"
+                                        aria-controls="collapseCanvas" [disabled]="!canvasData || isEmptyCanvasData()"
+                                        [ngClass]="{'disabled-button': !canvasData || isEmptyCanvasData()}">
+                                        <div class="button-content">
+                                            <span>Modelo Canvas</span>
+                                            <img *ngIf="!isEmptyEstrategiaData()"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="isEmptyCanvasData()"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseCanvas" class="accordion-collapse collapse"
+                                    aria-labelledby="headingCanvas" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div *ngIf="canvasData.length > 0">
+                                            <button (click)="openCanvasPopup()" class="plus-button2">Ver Canvas</button>
+
+                                        </div>
+                                        <div *ngIf="!canvasData || isEmptyCanvasData()">
+                                            <p>No hay datos disponibles para mostrar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div *ngIf="currentSection === 'seccion2'">
+                        <div class="accordion custom-accordion" id="accordionSimulacion">
+
+                            <!-- Acordeón de Inicio de la Simulación Legal -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingInicioSimulacion">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseInicioSimulacion" aria-expanded="false"
+                                        aria-controls="collapseInicioSimulacion"
+                                        [disabled]="!arrayResumenLegal || arrayResumenLegal.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayResumenLegal || arrayResumenLegal.length === 0}">
+                                        <div class="button-content">
+                                            <span>Inicio de la simulación legal</span>
+                                            <img *ngIf="arrayResumenLegal.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayResumenLegal || arrayResumenLegal.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseInicioSimulacion" class="accordion-collapse collapse"
+                                    aria-labelledby="headingInicioSimulacion" data-bs-parent="#accordionSimulacion">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayResumenLegal.length > 0">
+                                            <ul>
+                                                <p>El usuario ya ha iniciado la simulacion Legal</p>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Acordeón de Resumen de la Simulación Legal -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingResumenSimulacion">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseResumenSimulacion" aria-expanded="false"
+                                        aria-controls="collapseResumenSimulacion"
+                                        [disabled]="!arrayResumenLegal || arrayResumenLegal.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayResumenLegal || arrayResumenLegal.length === 0}">
+                                        <div class="button-content">
+                                            <span>Resumen de la simulación legal</span>
+                                            <img *ngIf="arrayResumenLegal.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayResumenLegal || arrayResumenLegal.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseResumenSimulacion" class="accordion-collapse collapse"
+                                    aria-labelledby="headingResumenSimulacion" data-bs-parent="#accordionSimulacion">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayResumenLegal.length > 0">
+                                            <ul>
+                                                <p>Se ha empezado a generar el resumen de la simulacion legal: </p>
+                                                <br>
+                                                <li *ngFor="let item of arrayResumenLegal">
+                                                    {{ item.cadena }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div *ngIf="!arrayResumenLegal || arrayResumenLegal.length === 0">
+                                            <p>No hay datos disponibles para mostrar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingInicioSimulacionTributaria">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseInicioSimulacionTributaria" aria-expanded="false"
+                                        aria-controls="collapseInicioSimulacionTributaria"
+                                        [disabled]="!arrayResumenTributario || arrayResumenTributario.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayResumenTributario || arrayResumenTributario.length === 0}">
+                                        <div class="button-content">
+                                            <span>Inicio de la simulación tributaria</span>
+                                            <img *ngIf="arrayResumenTributario.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayResumenTributario || arrayResumenTributario.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseInicioSimulacionTributaria" class="accordion-collapse collapse"
+                                    aria-labelledby="headingInicioSimulacionTributaria"
+                                    data-bs-parent="#accordionSimulacionTributaria">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayResumenTributario.length > 0">
+                                            <ul>
+                                                <p>El usuario ya ha iniciado la simulación tributaria</p>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Acordeón de Resumen de la Simulación Tributaria -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingResumenSimulacionTributaria">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseResumenSimulacionTributaria" aria-expanded="false"
+                                        aria-controls="collapseResumenSimulacionTributaria"
+                                        [disabled]="!arrayResumenTributario || arrayResumenTributario.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayResumenTributario || arrayResumenTributario.length === 0}">
+                                        <div class="button-content">
+                                            <span>Resumen de la simulación tributaria</span>
+                                            <img *ngIf="arrayResumenTributario.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayResumenTributario || arrayResumenTributario.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseResumenSimulacionTributaria" class="accordion-collapse collapse"
+                                    aria-labelledby="headingResumenSimulacionTributaria"
+                                    data-bs-parent="#accordionSimulacionTributaria">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayResumenTributario.length > 0">
+                                            <ul>
+                                                <p>Se ha empezado a generar el resumen de la simulación tributaria:</p>
+                                                <br>
+                                                <li *ngFor="let item of arrayResumenTributario">
+                                                    <div [innerHTML]="sanitizeHTML(item.cadena)"></div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div *ngIf="!arrayResumenTributario || arrayResumenTributario.length === 0">
+                                            <p>No hay datos disponibles para mostrar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingInicioSimulacionFinanciera">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseInicioSimulacionFinanciera" aria-expanded="false"
+                                        aria-controls="collapseInicioSimulacionFinanciera"
+                                        [disabled]="!arrayValores || arrayValores.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayValores || arrayValores.length === 0}">
+                                        <div class="button-content">
+                                            <span>Inicio de la simulación financiera</span>
+                                            <img *ngIf="arrayValores.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayValores || arrayValores.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseInicioSimulacionFinanciera" class="accordion-collapse collapse"
+                                    aria-labelledby="headingInicioSimulacionFinanciera"
+                                    data-bs-parent="#accordionSimulacionFinanciera">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayValores.length > 0">
+                                            <p>El usuario ha iniciado la simulación financiera.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Acordeón de Resumen de la Simulación Financiera -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingResumenSimulacionFinanciera">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseResumenSimulacionFinanciera" aria-expanded="false"
+                                        aria-controls="collapseResumenSimulacionFinanciera"
+                                        [disabled]="!arrayValores || arrayValores.length === 0"
+                                        [ngClass]="{'disabled-button': !arrayValores || arrayValores.length === 0}">
+                                        <div class="button-content">
+                                            <span>Resumen de la simulación financiera</span>
+                                            <img *ngIf="arrayValores.length > 0"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!arrayValores || arrayValores.length === 0"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseResumenSimulacionFinanciera" class="accordion-collapse collapse"
+                                    aria-labelledby="headingResumenSimulacionFinanciera"
+                                    data-bs-parent="#accordionSimulacionFinanciera">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayValores.length > 0">
+                                            <p>Se ha empezado a generar el resumen de la simulación financiera:</p>
+                                            <br>
+                                            <ul>
+                                                <li><strong>Nombre de la Empresa:</strong> {{
+                                                    arrayValores[0]?.nombreEmpresa }}</li>
+                                                <li><strong>Nombre del Producto:</strong> {{
+                                                    arrayValores[0]?.nombreProducto }}</li>
+                                                <li><strong>Código CIIU:</strong> {{ arrayValores[0]?.codigoCiiu }}</li>
+                                                <li><strong>Descripción del Producto:</strong> {{
+                                                    arrayValores[0]?.descripcionProducto }}</li>
+                                                <li><strong>Cantidad de Producto:</strong> {{
+                                                    arrayValores[0]?.cantidadProducto }}</li>
+                                                <li><strong>Costo de Materiales:</strong> {{
+                                                    arrayValores[0]?.costoMateriales | currency:'COP':'symbol' }}</li>
+                                                <li><strong>Costo de Ventas:</strong> {{ arrayValores[0]?.costoVentas |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Costos Indirectos:</strong> {{
+                                                    arrayValores[0]?.costosIndirectos | currency:'COP':'symbol' }}</li>
+                                                <li><strong>Egresos Adicionales:</strong> {{
+                                                    arrayValores[0]?.egresosAdicionales | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Gastos Operacionales:</strong> {{
+                                                    arrayValores[0]?.gastosOperacionales | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Ingresos Adicionales:</strong> {{
+                                                    arrayValores[0]?.ingresosAdicionales | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Ingresos Ordinarios:</strong> {{
+                                                    arrayValores[0]?.ingresosOrdinarios | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Margen de Ganancia:</strong> {{
+                                                    arrayValores[0]?.margenGanancia | currency:'COP':'symbol' }}</li>
+                                                <li><strong>Nivel de Riesgo:</strong> {{ arrayValores[0]?.nivelRiesgo }}
+                                                </li>
+                                                <li><strong>Precio IVA:</strong> {{ arrayValores[0]?.precioIva |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Precio de Venta:</strong> {{ arrayValores[0]?.precioVenta |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Punto de Equilibrio:</strong> {{
+                                                    arrayValores[0]?.puntoEquilibrio | currency:'COP':'symbol' }}</li>
+                                                <li><strong>Talento Humano:</strong> {{ arrayValores[0]?.talentoHumano |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Utilidad Bruta:</strong> {{ arrayValores[0]?.utilidadBruta |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Utilidad Operacional:</strong> {{
+                                                    arrayValores[0]?.utilidadOperacional | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Utilidad Pre-Impuesto:</strong> {{
+                                                    arrayValores[0]?.utilidadPreImpuesto | currency:'COP':'symbol' }}
+                                                </li>
+                                                <li><strong>Valor de Gastos:</strong> {{ arrayValores[0]?.valorGastos |
+                                                    currency:'COP':'symbol' }}</li>
+                                                <li><strong>Valor del Préstamo:</strong> {{
+                                                    arrayValores[0]?.valorPrestamo | currency:'COP':'symbol' }}</li>
+                                            </ul>
+
+
+                                        </div>
+                                        <div *ngIf="!arrayValores || arrayValores.length === 0">
+                                            <p>No hay datos disponibles para mostrar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="currentSection === 'seccion3'">
+                        <div class="accordion custom-accordion" id="accordionSimulacion">
+                            <!-- Acordeón Inicio del proceso de formalización -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingInicioFormalizacion">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseInicioFormalizacion" aria-expanded="false"
+                                        aria-controls="collapseInicioFormalizacion"
+                                        [disabled]="!arrayFormalizacionEmpresa && !arrayFormalizacionPersona"
+                                        [ngClass]="{'disabled-button': !arrayFormalizacionEmpresa && !arrayFormalizacionPersona}">
+                                        <div class="button-content">
+                                            <span>Inicio del proceso de formalización</span>
+                                            <img *ngIf="(arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0) || (arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0)"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!(arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0) && !(arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0)"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseInicioFormalizacion" class="accordion-collapse collapse"
+                                    aria-labelledby="headingInicioFormalizacion" data-bs-parent="#accordionSimulacion">
+                                    <div class="accordion-body">
+                                        <div *ngIf="arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0">
+                                            <ul>
+                                                <li>El emprendedor ha iniciado el proceso de formalización, tipo de
+                                                    formalización:
+                                                    <span>persona</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div *ngIf="arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0">
+                                            <ul>
+                                                <li>El emprendedor ha iniciado el proceso de formalización, tipo de
+                                                    formalización:
+                                                    <span>empresa</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            *ngIf="!(arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0) && !(arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0)">
+                                            <p>Aun no se han gestionado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Acordeón Resumen de la Formalización -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingResumenFormalizacion">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseResumenFormalizacion" aria-expanded="false"
+                                        aria-controls="collapseResumenFormalizacion"
+                                        [disabled]="!arrayFormalizacionEmpresa && !arrayFormalizacionPersona"
+                                        [ngClass]="{'disabled-button': !arrayFormalizacionEmpresa && !arrayFormalizacionPersona}">
+                                        <div class="button-content">
+                                            <span>Resumen de la formalización</span>
+                                            <img *ngIf="(arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0) || (arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0)"
+                                                src="../../../assets/imagenes/completo.png" alt="Completo" class="icon">
+                                            <img *ngIf="!(arrayFormalizacionEmpresa && arrayFormalizacionEmpresa.length > 0) && !(arrayFormalizacionPersona && arrayFormalizacionPersona.length > 0)"
+                                                src="../../../assets/imagenes/incompleto.png" alt="Incompleto"
+                                                class="icon">
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapseResumenFormalizacion" class="accordion-collapse collapse"
+                                    aria-labelledby="headingResumenFormalizacion" data-bs-parent="#accordionSimulacion">
+                                    <div class="accordion-body">
+                                        <div>
+                                            <ul>
+                                                <p>Se ha comenzado a generar el resumen de la formalización:</p>
+                                                <div *ngFor="let item of arrayFormalizacionEmpresa">
+                                                    <br>
+                                                    <p><strong>Acta:</strong> {{ item.acta ? 'Ya se ha gestionado el
+                                                        Acta' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>Bomberil:</strong> {{ item.bomberil ? 'Ya se ha
+                                                        gestionado el Bomberil' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>CIIU:</strong> {{ item.ciiu || 'Aún no se ha gestionado'
+                                                        }}</p>
+                                                    <p><strong>Dirección:</strong> {{ item.direccion || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Estatutos:</strong> {{ item.estatutos ? 'Ya se han
+                                                        gestionado los Estatutos' : 'Aún no se han gestionado' }}</p>
+                                                    <p><strong>Impuesto de Registro:</strong> {{ item.impuestoRegistro ?
+                                                        'Ya se ha gestionado el Impuesto de Registro' : 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Libros:</strong> {{ item.libros ? 'Ya se han gestionado
+                                                        los Libros' : 'Aún no se han gestionado' }}</p>
+                                                    <p><strong>Marca:</strong> {{ item.marca || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Placa:</strong> {{ item.placa || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Razón Social:</strong> {{ item.razonSocial || 'Aún no se
+                                                        ha gestionado' }}</p>
+                                                    <p><strong>RUES:</strong> {{ item.rues ? 'Ya se ha gestionado el
+                                                        RUES' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>RUT:</strong> {{ item.rut ? 'Ya se ha gestionado el RUT'
+                                                        : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>RUT Empresa:</strong> {{ item.rutEmpresa ? 'Ya se ha
+                                                        gestionado el RUT Empresa' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>SAYCO:</strong> {{ item.sayco ? 'Ya se ha gestionado el
+                                                        SAYCO' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>Sociedad:</strong> {{ item.sociedad ? 'Ya se ha
+                                                        gestionado la Sociedad' : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>Uso de Suelo:</strong> {{ item.usoDeSuelo ? 'Ya se ha
+                                                        gestionado el Uso de Suelo' : 'Aún no se ha gestionado' }}</p>
+                                                </div>
+
+
+                                                <div *ngFor="let item of arrayFormalizacionPersona">
+                                                    <br>
+                                                    <p><strong>Bomberil:</strong> {{ item.bomberil ? 'Ya se gestionó el
+                                                        trámite con el cuerpo de Bomberos' : 'Aún no se ha gestionado'
+                                                        }}</p>
+                                                    <p><strong>CIIU:</strong> {{ item.codigoCiiu || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Dirección:</strong> {{ item.direccion || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Marca:</strong> {{ item.marca ? 'Ya se gestionó la Marca'
+                                                        : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>Nombre:</strong> {{ item.nombre || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>Placa:</strong> {{ item.placa || 'Aún no se ha
+                                                        gestionado' }}</p>
+                                                    <p><strong>RUES:</strong> {{ item.rues ? 'Ya se gestionó el RUES' :
+                                                        'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>RUT:</strong> {{ item.rut ? 'Ya se gestionó el RUT' :
+                                                        'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>SAYCO:</strong> {{ item.sayco ? 'Ya se gestionó el SAYCO'
+                                                        : 'Aún no se ha gestionado' }}</p>
+                                                    <p><strong>Uso de Suelo:</strong> {{ item.usoDeSuelo ? 'Ya se
+                                                        gestionó el Uso de Suelo' : 'Aún no se ha gestionado' }}</p>
+                                                </div>
+
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div><br>

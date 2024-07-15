@@ -201,36 +201,36 @@ export class ResumenideacionComponent {
     );
   }
 
-  cargarDatosUsuario(idUsuario:any){
+  cargarDatosUsuario(idUsuario: any) {
     this.resumenempresaService.getUsuario(idUsuario).subscribe(
       (data) => {
-        //
-        this.arrayUsuario=data.users;
-        for (let dato in this.arrayUsuario){
-          this.nombre=this.arrayUsuario[dato].nombre;
-          this.tipodocumento=this.arrayUsuario[dato].tipodocumento;
-          this.documento=this.arrayUsuario[dato].documento;
-          this.direccion=this.arrayUsuario[dato].direccion;
-          this.telefono=this.arrayUsuario[dato].telefono;
-          this.ciudad=this.arrayUsuario[dato].ciudad;
-          this.email=this.arrayUsuario[dato].email;
-          this.sexo=this.arrayUsuario[dato].sexo;
-        }
-
-        console.log("Actual nombre: "+this.nombre);
-        console.log("Actual tipodocumento: "+this.tipodocumento);
-        console.log("Actual documento: "+this.documento);
-        console.log("Actual direccion: "+this.direccion);
-        console.log("Actual telefono: "+this.telefono);
-        console.log("Actual ciudad: "+this.ciudad);
-        console.log("Actual email: "+this.email);
-        console.log("Actual sexo: "+this.sexo);
+        console.log(data);
+        const usuario = data.user;
+        const ciudad = data.ciudad; // 'data.user' es un objeto, no un arreglo
+        this.nombre = usuario.nombre;
+        this.tipodocumento = usuario.tipodocumento;
+        this.documento = usuario.documento;
+        this.direccion = usuario.direccion;
+        this.telefono = usuario.telefono;
+        this.ciudad = ciudad.ciudad;
+        this.email = usuario.email;
+        this.sexo = usuario.sexo;
+  
+        console.log("Actual nombre: " + this.nombre);
+        console.log("Actual tipodocumento: " + this.tipodocumento);
+        console.log("Actual documento: " + this.documento);
+        console.log("Actual direccion: " + this.direccion);
+        console.log("Actual telefono: " + this.telefono);
+        console.log("Actual ciudad: " + this.ciudad);
+        console.log("Actual email: " + this.email);
+        console.log("Actual sexo: " + this.sexo);
       },
       (err) => {
         console.log(err); // Manejo de errores
       }
     );
   }
+  
 
   cargarHobbiesUsuario(idUsuario:any){
     this.resumenempresaService.getHobbies(idUsuario).subscribe(

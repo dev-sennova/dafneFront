@@ -1,43 +1,183 @@
-import { Component, ViewChild } from '@angular/core';
-import { ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { UtilsService } from 'src/app/services/utils.service';
-import { LoginService } from 'src/app/services/login.service';
-import { NgModel } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { isEmpty } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { GestorService } from 'src/app/services/gestor.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-verlistado',
   templateUrl: './verlistado.component.html',
   styleUrls: ['./verlistado.component.css']
 })
-export class VerlistadoComponent {
+export class VerlistadoComponent implements OnInit {
   idUsuarioCargado: any;
-  arrayEmprendedores: any;
+  arrayUsuarios: any[] = [];
+  arrayUsuariosFiltrado: any[] = [];
+  filtroNombre: string = '';
+  filtroRol: string = '';
+  filtroOrientador='';
+  selectedGestor: { [key: number]: number } = {};
+  gestores: any[] = [];
+  orientadores: any[] = [];
+  rolUsuario: string | null = null;
+  orientador=false;
 
-  constructor(public router:Router, private loginService:LoginService, private utilsService:UtilsService, private route: ActivatedRoute, private gestorService: GestorService) {}
+  constructor(private gestorService: GestorService, private router: Router) {}
 
   ngOnInit(): void {
-    this.idUsuarioCargado=localStorage.getItem('identificador_usuario');
-    //
-    console.log("Usuario cargado: "+this.idUsuarioCargado);
+    this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
+    this.rolUsuario = localStorage.getItem('rol');
 
-    this.verEmprendedores(this.idUsuarioCargado);
+    this.loadGestores();
+    this.loadOrientadores();
+
+    if (this.rolUsuario === '1') {
+      this.verEmprendedores();
+    } else if (this.rolUsuario === '2') {
+      this.verEmprendedoresPorGestor();
+      this.orientador=true;
+    }
   }
 
-  verEmprendedores(idUsuario:any){
-    this.gestorService.listadoEmprendedores(idUsuario).subscribe(
+  verEmprendedores(): void {
+    this.gestorService.listadoEmprendedores().subscribe(
       (data) => {
-        // console.log("Data Values: "+JSON.stringify(data));
-        this.arrayEmprendedores=data.users;
-        console.log("Array emprendedores: "+ JSON.stringify(this.arrayEmprendedores));
+        this.arrayUsuarios = data.users;
+        this.arrayUsuariosFiltrado = [...this.arrayUsuarios];
+        this.arrayUsuarios.forEach((usuario: any) => {
+          this.selectedGestor[usuario.id] = usuario.gestor;
+        });
+        this.aplicarFiltro();
       },
       (err) => {
-        console.log("SEC ERR: "+err); // Manejo de errores
+        console.error('Error obteniendo emprendedores', err);
       }
     );
   }
 
+  verEmprendedoresPorGestor(): void {
+    this.gestorService.listadoEmprendedoresPorGestor().subscribe(
+      (data) => {
+        this.arrayUsuarios = data.emprendedores;
+        this.arrayUsuariosFiltrado = [...this.arrayUsuarios];
+        this.arrayUsuarios.forEach((usuario: any) => {
+          this.selectedGestor[usuario.id] = usuario.gestor;
+        });
+        this.aplicarFiltro();
+      },
+      (err) => {
+        console.error('Error obteniendo emprendedores por gestor', err);
+      }
+    );
+  }
+
+  onGestorChange(elemento: any): void {
+    const gestorSeleccionado = this.selectedGestor[elemento.id];
+    const gestorActual = elemento.gestor;
+    elemento.cambioGestor = gestorSeleccionado !== gestorActual;
+  }
+
+  loadGestores(): void {
+    this.gestorService.listadoOrientadores().subscribe(
+      (data) => {
+        this.gestores = data.users;
+      },
+      (err) => {
+        console.log('Error al obtener los gestores: ', err);
+      }
+    );
+  }
+
+  loadOrientadores(): void {
+    this.gestorService.listadoOrientadores().subscribe(
+      (data) => {
+        this.orientadores = data.users;
+      },
+      (err) => {
+        console.log('Error al obtener los orientadores: ', err);
+      }
+    );
+  }
+
+  aplicarFiltro(): void {
+    // Filtrar los usuarios según los criterios seleccionados
+    this.arrayUsuariosFiltrado = this.arrayUsuarios.filter((elemento: any) => {
+      const nombreCoincide = !this.filtroNombre || elemento.name.toLowerCase().includes(this.filtroNombre.toLowerCase());
+      const rolCoincide = !this.filtroRol || elemento.rol.toString() == this.filtroRol;
+      const orientadorCoincide = !this.filtroOrientador || elemento.gestor == this.filtroOrientador;
+      return nombreCoincide && rolCoincide && orientadorCoincide;
+    });
+
+    // Si se selecciona "Todos los roles" o "Orientador", restablecer el filtro de orientadores
+    if (this.filtroRol === '' || this.filtroRol === '2') {
+      this.filtroOrientador = '';
+      // Filtrar los usuarios según los criterios seleccionados
+    this.arrayUsuariosFiltrado = this.arrayUsuarios.filter((elemento: any) => {
+      const nombreCoincide = !this.filtroNombre || elemento.name.toLowerCase().includes(this.filtroNombre.toLowerCase());
+      const rolCoincide = !this.filtroRol || elemento.rol.toString() == this.filtroRol;
+      return nombreCoincide && rolCoincide;
+    });
+    }
+
+    // Si se selecciona "Emprendedor" y no se ha seleccionado un orientador,
+    if (this.filtroRol === '3' && this.filtroOrientador === '') {
+      this.filtroOrientador = '';
+    }
+
+    // Ordenar los usuarios filtrados por rol
+    this.arrayUsuariosFiltrado.sort((a: any, b: any) => b.rol - a.rol);
+}
+
+  
+  
+  
+  
+  
+  
+  cambiarGestor(userId: number): void {
+    const gestorId = this.selectedGestor[userId];
+    if (!gestorId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor selecciona un gestor',
+      });
+      return;
+    }
+    const confirmacion = confirm('¿Estás seguro de cambiar el gestor del emprendedor?');
+    if (confirmacion) {
+      this.gestorService.cambiarOrientador(userId, gestorId).subscribe(
+        (data) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'El gestor del emprendedor ha sido cambiado correctamente',
+          });
+          const usuario = this.arrayUsuarios.find((e: any) => e.id === userId);
+          if (usuario) {
+            usuario.gestor = gestorId;
+          }
+          this.aplicarFiltro();
+        },
+        (error) => {
+          console.error('Error cambiando el gestor del emprendedor', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo cambiar el gestor del emprendedor',
+          });
+        }
+      );
+    }
+  }
+
+  verAvance(id: number): void {
+    sessionStorage.setItem('emprendedorId', id.toString());
+    this.router.navigate(['/ver-avance']);
+
+  }
+  
+
+  homeRoute(): void {
+    this.router.navigate(['administrador']);
+  }
 }

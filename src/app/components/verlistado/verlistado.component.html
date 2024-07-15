@@ -1,57 +1,56 @@
 <div class="container">
-
-  <div class="row">
-    <div class="col-md-2">
-    </div>
-
-    <div class="col-md-5">
-      <div class="card">
-        <div class="card-body">
-          <div>
-            <h2>Datos emprendedores</h2><hr>
-            <!-- Implementar datatable -->
-            <table class="table table-striped">
-              <thead>
-                <th>
-                  <b>Id Emprendedor</b>
-                </th>
-                <th>
-                  <b>Nombre Emprendedor</b>
-                </th>
-                <th>
-                  <b>Email Emprendedor</b>
-                </th>
-              </thead>
-              <tr *ngFor="let elemento of arrayEmprendedores">
-                <td>
-                  {{ elemento.id }}
-                </td>
-                <td>
-                  {{ elemento.name }}
-                </td>
-                <td>
-                  {{ elemento.email }}
-                </td>
-                <td>
-                  <!-- Poner un href o una funcion basad@ en el id para que me muestre el detalle asociado al emprendedor -->
-                </td>
-              </tr>
-            </table>
-          </div>
-
-
-        </div>
-      </div>
-      <br>
-
-    </div>
-
-    <div class="col-md-2">
-    </div>
+  <div class="title-container d-flex justify-content-between align-items-center">
+    <h2 class="user-title">Usuarios</h2>
+    <button class="plus-button btn btn-secondary" (click)="homeRoute()">Volver</button>
   </div>
-
-  <br>
   <hr>
-
+  <div class="input-group filtro">
+    <input type="text" class="form-control" placeholder="Buscar por nombre" [(ngModel)]="filtroNombre" (keyup)="aplicarFiltro()">
+    <div class="input-group-append" *ngIf="!orientador">
+      <select class="custom-select" [(ngModel)]="filtroRol" (change)="aplicarFiltro()">
+        <option value="">Todos los roles</option>
+        <option value="3">Emprendedor</option>
+        <option value="2">Orientador</option>
+      </select>
+    </div>
+    <select class="custom-select" *ngIf="filtroRol === '3' && !orientador" [(ngModel)]="filtroOrientador" (change)="aplicarFiltro()">
+      <option value=''>Todos los orientadores</option>
+      <option *ngFor="let orientador of orientadores" [value]="orientador.id">{{ orientador.name }}</option>
+    </select>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Id Emprendedor</th>
+          <th>Nombre Emprendedor</th>
+          <th>Email Emprendedor</th>
+          <th>Rol</th>
+          <th *ngIf="!orientador">Orientador</th>
+          <th *ngIf="!orientador || orientador">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let elemento of arrayUsuariosFiltrado; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ elemento.id }}</td>
+          <td>{{ elemento.name }}</td>
+          <td>{{ elemento.email }}</td>
+          <td>{{ elemento.rol === 3 ? 'Emprendedor' : (elemento.rol === 2 ? 'Orientador' : 'Otro') }}</td>
+          <td *ngIf="!orientador">
+            <select *ngIf="elemento.rol == 3" class="form-control" [(ngModel)]="selectedGestor[elemento.id]" (change)="onGestorChange(elemento)">
+              <option *ngFor="let gestor of gestores" [value]="gestor.id" [selected]="gestor.id === elemento.gestor">{{ gestor.name }}</option>
+            </select>
+          </td>
+          <td *ngIf="!orientador">
+            <button *ngIf="elemento.rol == 3" class="button-design" [disabled]="selectedGestor[elemento.id] == elemento.gestor" (click)="cambiarGestor(elemento.id)">Cambiar</button>
+          </td>
+          <td *ngIf="orientador">
+            <button class="button-design" (click)="verAvance(elemento.id)">Ver avance</button>
+          </td>          
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-

@@ -12,6 +12,10 @@
       <span class="fill-space"></span>
 
       <span *ngIf="this.authService.isLoggedIn">
+        <button mat-button (click)="openGestorModal()">
+          <img src="./assets/imagenes/icono-ayuda.png" style="max-width: 36px;">
+        </button>
+
         <button mat-button class="menu-button" (click)="menuVisible = !menuVisible">
           <img src="./assets/iconos/no-foto.svg" style="max-width: 36px;">
         </button>

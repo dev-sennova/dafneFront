@@ -28,6 +28,7 @@ export class CriteriosComponent {
   idCriterio: any;
   idUsuario: any;
   countCriterios: number=0;
+  botonBloqueado=false;
 
 //Inicio variables para validar bitacora ***
   //*******************************************//
@@ -131,12 +132,15 @@ export class CriteriosComponent {
       (data) => {
         //console.log("Data Prop:"+data);
         if(data.criterios.length>0){
+          this.botonBloqueado=true;
           for (let dato in data.criterios){
             this.idCriterioPropio=data.criterios[dato].id;
             this.criterioPropio=data.criterios[dato].criterio;
             this.valorModeracion=data.criterios[dato].moderacion;
             this.arrayOpciones.push({idCriterio:this.idCriterioPropio, criterio:this.criterioPropio, valorModeracion: this.valorModeracion});
           }
+        }else{
+          this.botonBloqueado=false;
         }
         for (let dato in this.arrayOpciones){
           //console.log("Array Opciones orden: "+dato+ "idSuenos: " + this.arrayOpciones[dato].idSuenos+ "hobbie: " + this.arrayOpciones[dato].suenos);
@@ -262,19 +266,17 @@ export class CriteriosComponent {
     Swal.fire({
       title: 'Ingresa tu criterio personalizado:',
       html:
-        '<input type="text" id="criterionuevo" class="swal2-input" placeholder="Nombre del criterio" required><br><input type="text" id="pregunta" class="swal2-input" placeholder="Frase de comparación" required>'
-        +'<br><span><sub>Ej: Organiza las ideas de mayor a menor según su innovación</sub></span>',
+        '<input type="text" id="criterionuevo" class="swal2-input" placeholder="Nombre del criterio" required><br>',
       showCancelButton: true,
       confirmButtonText: 'Guardar Nuevo',
       preConfirm: () => {
-        // Obtener el valor del input
         const criterionuevo = (document.getElementById('criterionuevo') as HTMLInputElement).value;
-        const pregunta = (document.getElementById('pregunta') as HTMLInputElement).value;
-        // Realizar aquí las acciones necesarias con el valor ingresado
+        const pregunta = `Organiza las ideas de mayor a menor según su ${criterionuevo}`;
         this.criterioSave(criterionuevo, pregunta);
       }
     })
   }
+  
 //Inicio nueva Ruta ***
   //*******************************************//
   homeRoute(){

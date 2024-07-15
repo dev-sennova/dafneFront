@@ -30,6 +30,8 @@ export class IdeasComponent {
   idUsuario: any;
   countIdeas: number=0;
   ideanuevo: any;
+  botonBloqueado = false;
+
 
   //Inicio variables para validar bitacora ***
   //*******************************************//
@@ -133,12 +135,15 @@ export class IdeasComponent {
       (data) => {
         //console.log("Data Prop:"+data);
         if(data.ideas.length>0){
+          this.botonBloqueado=true;
           for (let dato in data.ideas){
             this.idIdeaPropio=data.ideas[dato].id;
             this.ideaPropio=data.ideas[dato].idea;
             this.valorModeracion=data.ideas[dato].moderacion;
             this.arrayOpciones.push({idIdea:this.idIdeaPropio, idea:this.ideaPropio, valorModeracion: this.valorModeracion});
           }
+        }else{
+          this.botonBloqueado=false;
         }
         for (let dato in this.arrayOpciones){
           //console.log("Array Opciones orden: "+dato+ "idSuenos: " + this.arrayOpciones[dato].idSuenos+ "hobbie: " + this.arrayOpciones[dato].suenos);

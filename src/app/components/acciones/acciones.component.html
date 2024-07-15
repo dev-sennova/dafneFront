@@ -1,1 +1,46 @@
-<p>acciones works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>acciones</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box" (click)="suenosRoute()">
+            <img src="../../../assets/imagenes/suenos-acciones.jpg" alt="Sueños">
+            <h2>Sueños</h2>
+            <div class="notification-container">
+                <div *ngIf="usuarioSuenos.length > 0" class="notification-circle">{{ usuarioSuenos.length }}</div>
+            </div>
+        </div>
+        <div class="box" (click)="ideasRoute()">
+            <img src="../../../assets/imagenes/Ideas.jpg" alt="Ideas">
+            <h2>Ideas</h2>
+            <div class="notification-container">
+                <div *ngIf="usuarioIdeas.length > 0" class="notification-circle">{{ usuarioIdeas.length }}</div>
+            </div>
+        </div>
+        <div class="box" (click)="hobbiesRoute()">
+            <img src="../../../assets/imagenes/hobbies.jpg" alt="Hobbies">
+            <h2>Hobbies</h2>
+            <div class="notification-container">
+                <div *ngIf="usuarioHobbies.length > 0" class="notification-circle">{{ usuarioHobbies.length }}</div>
+            </div>
+        </div>
+        
+        <div class="box" (click)="criteriosRoute()">
+            <img src="../../../assets/imagenes/criterios.jpg" alt="Criterios">
+            <h2>Criterios</h2>
+            <div class="notification-container">
+                <div *ngIf="usuarioCriterios.length > 0" class="notification-circle">{{ usuarioCriterios.length }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="return-button">
+        <button (click)="homeRoute()">Volver</button>
+    </div>
+    
+</body>
+</html>
