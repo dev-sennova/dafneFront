@@ -9,12 +9,14 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class AdministradorComponent {
   idUsuario:any;
+  rol:any;
 
   constructor(public router: Router, private loginService:LoginService) {}
 
   ngOnInit(): void {
     console.log("UsuarioLocal: " + localStorage.getItem('nombre_usuario'));
     console.log("idUsuarioLocal: " + localStorage.getItem('identificador_usuario'));
+    this.rol = Number(localStorage.getItem('rol')); // Convertir a número si es necesario
     //this.setIdLocal();
   }
 
