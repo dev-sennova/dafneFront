@@ -382,7 +382,7 @@
                                                 <p>Se ha empezado a generar el resumen de la simulacion legal: </p>
                                                 <br>
                                                 <li *ngFor="let item of arrayResumenLegal">
-                                                    {{ item.cadena }}
+                                                    <div [innerHTML]="sanitizeHTML(item.cadena)"></div>
                                                 </li>
                                             </ul>
                                         </div>
